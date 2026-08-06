@@ -1,0 +1,443 @@
+/* ==========================================================================
+   OUBANGUI STAT CONSULTING — système graphique de la campagne « Formations 2026 »
+   Source UNIQUE des couleurs, des ombres et des espacements de TOUS les
+   livrables de la campagne (affiche, page de vente, brochure, formulaire,
+   lettres, storyboard). Aucun fichier ne doit redéfinir une couleur en dur :
+   on ajoute un jeton ici, on l'emploie là-bas.
+
+   POURQUOI UNE SOURCE UNIQUE. Le cabinet présente ses supports au même
+   public que ses applications (ODC, Gestionnaire des Formations). Un bleu
+   recopié à la main dans un support finit toujours par diverger d'un point
+   ou deux, et c'est exactement ce qui fait qu'une marque « ne tient pas ».
+
+   PARENTÉ AVEC LA CHARTE ODC. La palette reprend le langage visuel des
+   Nations unies — structure et couleurs seulement, aucun emblème ni
+   allusion à une affiliation. Les deux règles de contraste d'ODC sont
+   reconduites telles quelles, voir §1.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. JETONS
+   ========================================================================== */
+:root {
+  /* --- Bleus ------------------------------------------------------------
+     RÈGLE DE CONTRASTE, héritée d'ODC et non négociable :
+     --bleu-signal SIGNALE (filets, soulignements, pastilles) et ne porte
+     JAMAIS de texte (2,6:1 sur blanc, illisible). Tout texte bleu, tout
+     lien et tout bouton emploient --bleu-action (6,3:1 sur blanc). */
+  --marine-900: #071A2F;   /* fonds les plus profonds, pieds de page */
+  --marine-800: #0B2545;   /* fond dominant des blocs sombres */
+  --marine-700: #102A43;   /* aplats secondaires, en-têtes de tableau */
+  --marine-600: #17395C;   /* survols et séparations sur fond sombre */
+  --bleu-action: #00689D;  /* SEUL bleu autorisé pour du texte */
+  --bleu-signal: #009EDB;  /* accent, filets, jamais de texte */
+  --bleu-100: #DCEEF8;     /* fonds de pastille clairs */
+  --bleu-050: #EFF6FB;     /* fond de section alterné */
+
+  /* --- Accents ----------------------------------------------------------
+     L'or porte l'URGENCE (places limitées, dates de clôture) et rien
+     d'autre : s'il sert aussi de décoration, il cesse d'alerter.
+     La latérite est la couleur des pistes de Bangui ; elle ancre la
+     campagne dans le pays et s'emploie à dose homéopathique. */
+  --or: #F4B942;
+  --or-fonce: #C88A12;     /* la version qui peut porter du texte (4,6:1) */
+  --turquoise: #007C83;    /* second accent, données et cartographie */
+  --laterite: #B4472E;     /* accent centrafricain, très parcimonieux */
+  --vert: #2E7D64;         /* validation, acquis, « inclus » */
+
+  /* --- Encres et fonds -------------------------------------------------- */
+  --encre: #12212F;        /* texte courant (14,6:1 sur blanc) */
+  --encre-70: #40566B;     /* texte secondaire, légendes */
+  --encre-40: #8296A7;     /* mentions, filigranes */
+  --fond: #F3F7FA;         /* fond de page */
+  --blanc: #FFFFFF;
+  --voile: rgba(255, 255, 255, .08);
+
+  /* --- Échelle d'espacement ---------------------------------------------
+     Tout écart vient d'ici. Aucune valeur improvisée : c'est ce qui donne
+     au document son rythme, et une marge « à 17 px parce que ça tombait
+     bien » se voit à l'impression. */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
+
+  /* --- Rayons ------------------------------------------------------------ */
+  --r-1: 6px; --r-2: 12px; --r-3: 20px; --r-4: 28px;
+
+  /* --- Ombres et biseaux -------------------------------------------------
+     DEMANDE EXPLICITE DU COMMANDITAIRE : aucune bordure sur les cartes.
+     Le relief vient donc de deux choses superposées — une ombre portée
+     douce (la carte flotte) et un biseau interne (une ligne blanche en
+     haut, une ligne sombre en bas), qui est ce qui distingue un vrai
+     relief d'un simple flou gris. Ne jamais remplacer par `border`. */
+  --ombre-1: 0 1px 2px rgba(11, 37, 69, .06), 0 2px 6px rgba(11, 37, 69, .06);
+  --ombre-2: 0 2px 4px rgba(11, 37, 69, .05), 0 10px 24px -8px rgba(11, 37, 69, .16);
+  --ombre-3: 0 4px 8px rgba(11, 37, 69, .06), 0 22px 48px -16px rgba(11, 37, 69, .30);
+  --ombre-4: 0 32px 70px -22px rgba(7, 26, 47, .48), 0 6px 14px rgba(7, 26, 47, .12);
+  --biseau: inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 -1px 0 rgba(11, 37, 69, .06);
+  --biseau-sombre: inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 -1px 0 rgba(0, 0, 0, .30);
+
+  /* --- Polices -----------------------------------------------------------
+     AUCUNE police distante : les supports doivent s'ouvrir hors ligne et
+     s'imprimer à l'identique depuis n'importe quel poste du cabinet.
+     Bahnschrift (condensée, livrée avec Windows) donne aux titres la
+     compacité d'une affiche institutionnelle ; les replis couvrent macOS. */
+  --titre: "Bahnschrift", "Segoe UI Semibold", "Franklin Gothic Medium",
+           "Helvetica Neue", system-ui, sans-serif;
+  --texte: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --serif: "Constantia", "Cambria", Georgia, "Times New Roman", serif;
+  --mono: "Cascadia Mono", "Consolas", "SF Mono", monospace;
+}
+
+/* ==========================================================================
+   2. SOCLE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--texte);
+  /* 17 px et non 16 : le corps de texte de la page de vente se lit surtout
+     sur téléphone, et le public cible lit du français académique. */
+  font-size: 17px;
+  line-height: 1.62;
+  color: var(--encre);
+  background: var(--fond);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--titre);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.005em;
+  color: var(--marine-800);
+  margin: 0 0 var(--sp-4);
+  /* Bahnschrift est une police variable : sans cet axe, Chrome la rend en
+     graisse « Light » et tous les titres paraissent délavés. */
+  font-variation-settings: "wght" 700, "wdth" 87;
+}
+h1 { font-size: clamp(2.1rem, 5.2vw, 3.5rem); }
+h2 { font-size: clamp(1.6rem, 3.4vw, 2.35rem); }
+h3 { font-size: 1.28rem; }
+h4 { font-size: 1.06rem; }
+
+p { margin: 0 0 var(--sp-4); }
+a { color: var(--bleu-action); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+strong { font-weight: 700; color: var(--marine-800); }
+img { max-width: 100%; display: block; }
+
+/* Surlignage typographique de la promesse. Un fond plein couperait la
+   ligne de base d'une phrase à l'autre : on n'éclaire que la moitié basse,
+   comme un vrai surligneur. */
+.osc-surligne {
+  background: linear-gradient(transparent 58%, rgba(244, 185, 66, .55) 58%);
+  padding: 0 .08em;
+}
+
+/* ==========================================================================
+   3. MISE EN PAGE
+   ========================================================================== */
+.osc-large { max-width: 1180px; margin-inline: auto; padding-inline: var(--sp-5); }
+.osc-etroit { max-width: 760px; margin-inline: auto; padding-inline: var(--sp-5); }
+.osc-section { padding-block: var(--sp-9); }
+.osc-section--clair { background: var(--blanc); }
+.osc-section--bleute { background: var(--bleu-050); }
+
+.osc-section--sombre {
+  background: var(--marine-800);
+  color: #DCE6EF;
+}
+.osc-section--sombre h1, .osc-section--sombre h2,
+.osc-section--sombre h3, .osc-section--sombre h4 { color: var(--blanc); }
+.osc-section--sombre strong { color: var(--blanc); }
+
+/* Grille auto-ajustée : `auto-fit` plutôt qu'un nombre fixe de colonnes,
+   pour que la même classe serve à 2, 3 ou 4 cartes sans variante. */
+.osc-grille { display: grid; gap: var(--sp-5); }
+.osc-grille--2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+/* 320 px et non 260 : en dessous, la grille bascule à quatre colonnes sur
+   un écran de bureau et les cartes de logiciels deviennent des rubans de
+   deux mots par ligne. Trois colonnes est le maximum lisible. */
+.osc-grille--3 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.osc-grille--4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+/* ==========================================================================
+   4. TITRES DE SECTION
+   ========================================================================== */
+/* Sur-titre : oriente le lecteur qui balaie la page sans lire. Les lettres
+   sont espacées parce qu'en capitales serrées, une police condensée devient
+   un pâté illisible à petite taille. */
+.osc-surtitre {
+  font-family: var(--titre);
+  font-size: .82rem;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: var(--bleu-action);
+  margin: 0 0 var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.osc-surtitre::before {
+  content: "";
+  width: 30px; height: 3px;
+  background: var(--bleu-signal);
+  border-radius: 2px;
+  flex: none;
+}
+.osc-section--sombre .osc-surtitre { color: #7FD0F2; }
+
+/* ==========================================================================
+   5. CARTES — sans bordure, par ombre et biseau
+   ========================================================================== */
+.osc-carte {
+  background: var(--blanc);
+  border-radius: var(--r-2);
+  padding: var(--sp-5);
+  box-shadow: var(--ombre-2), var(--biseau);
+  /* La transition ne sert que la version écran ; à l'impression elle est
+     sans effet et ne coûte rien. */
+  transition: box-shadow .22s ease, transform .22s ease;
+}
+.osc-carte--survol:hover { box-shadow: var(--ombre-3), var(--biseau); transform: translateY(-3px); }
+
+/* Rail de couleur à gauche : c'est le seul « trait » autorisé sur une
+   carte. Il code une famille (bleu = méthode, turquoise = données,
+   or = organisation) au lieu de décorer. */
+.osc-carte--rail { position: relative; padding-left: calc(var(--sp-5) + 6px); overflow: hidden; }
+.osc-carte--rail::before {
+  content: "";
+  position: absolute; inset: 0 auto 0 0;
+  width: 5px;
+  background: var(--bleu-signal);
+}
+.osc-carte--rail-or::before { background: var(--or); }
+.osc-carte--rail-turquoise::before { background: var(--turquoise); }
+.osc-carte--rail-laterite::before { background: var(--laterite); }
+
+/* Carte sombre : le biseau s'inverse, sinon le relief se lit à l'envers. */
+.osc-carte--sombre {
+  background: linear-gradient(160deg, var(--marine-700), var(--marine-900));
+  color: #C9D8E4;
+  box-shadow: var(--ombre-3), var(--biseau-sombre);
+}
+.osc-carte--sombre h3, .osc-carte--sombre h4, .osc-carte--sombre strong { color: var(--blanc); }
+
+/* RÈGLE GÉNÉRALE À RETENIR : `strong` est forcé en marine par le socle §2,
+   ce qui le rend INVISIBLE sur tout aplat sombre. Chaque composant à fond
+   marine doit donc rétablir explicitement sa couleur, comme ci-dessus.
+   Oublier cette ligne fait disparaître du texte sans aucune erreur visible
+   — c'est arrivé sur les cartes de formules de la page de vente. */
+
+/* ==========================================================================
+   6. ENCARTS CHIFFRÉS
+   ========================================================================== */
+.osc-chiffre { text-align: left; }
+.osc-chiffre__valeur {
+  font-family: var(--titre);
+  font-variation-settings: "wght" 700, "wdth" 82;
+  font-size: 2.9rem;
+  line-height: 1;
+  color: var(--bleu-action);
+  /* Chiffres tabulaires : sans cela, une colonne de statistiques danse
+     d'une ligne à l'autre parce que le « 1 » est plus étroit. */
+  font-variant-numeric: tabular-nums;
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+.osc-chiffre__libelle { font-size: .93rem; color: var(--encre-70); line-height: 1.4; }
+.osc-chiffre__source { font-size: .74rem; color: var(--encre-40); margin-top: var(--sp-2); }
+.osc-section--sombre .osc-chiffre__valeur { color: var(--or); }
+.osc-section--sombre .osc-chiffre__libelle { color: #A9BDCE; }
+.osc-section--sombre .osc-chiffre__source { color: #6E8598; }
+
+/* ==========================================================================
+   7. PASTILLES
+   ========================================================================== */
+/* Fond clair + texte foncé, jamais l'inverse : une pastille saturée avec du
+   texte blanc à 12 px n'est plus lisible une fois imprimée. */
+.osc-pastille {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-family: var(--titre);
+  font-size: .78rem; letter-spacing: .05em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 999px;
+  background: var(--bleu-100); color: #005580;
+  box-shadow: var(--biseau);
+}
+.osc-pastille--or { background: #FDF0D2; color: #8A5D00; }
+.osc-pastille--vert { background: #DCEFE7; color: #1F5A47; }
+.osc-pastille--laterite { background: #F7E2DC; color: #8A3220; }
+.osc-pastille--urgence { background: var(--or); color: #4A3000; }
+
+/* ==========================================================================
+   8. BOUTONS
+   ========================================================================== */
+.osc-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
+  font-family: var(--titre); font-size: 1.02rem; letter-spacing: .02em;
+  padding: 15px 30px; border-radius: var(--r-1);
+  background: var(--bleu-action); color: var(--blanc);
+  text-decoration: none; border: 0; cursor: pointer;
+  box-shadow: 0 10px 22px -10px rgba(0, 104, 157, .8), var(--biseau-sombre);
+  transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.osc-btn:hover { background: #00577F; transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(0, 104, 157, .9), var(--biseau-sombre); }
+.osc-btn--or { background: var(--or); color: #3B2600; box-shadow: 0 10px 22px -10px rgba(200, 138, 18, .85), var(--biseau); }
+.osc-btn--or:hover { background: #E8AB2C; }
+/* Bouton fantôme : sur fond sombre, un contour clair suffit — et c'est la
+   seule exception à la règle « pas de bordure », parce qu'un bouton doit
+   se voir comme cliquable. */
+.osc-btn--fantome { background: transparent; color: var(--blanc); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .45); }
+.osc-btn--fantome:hover { background: rgba(255, 255, 255, .1); }
+
+/* ==========================================================================
+   9. LISTES
+   ========================================================================== */
+.osc-liste { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
+/* PIÈGE RENCONTRÉ, à ne pas réintroduire : cette règle employait
+   `display: flex`. Chaque enfant direct du <li> devenait alors un ÉLÉMENT
+   FLEX — y compris les <strong> et les nœuds de texte —, si bien qu'une
+   puce rédigée « <strong>Le certificat</strong> de fin de parcours » se
+   cassait en deux colonnes au lieu de faire une phrase. La puce est donc
+   posée en absolu et le <li> reste un bloc de texte normal. */
+.osc-liste li { position: relative; padding-left: 32px; line-height: 1.5; }
+/* La coche est dessinée en CSS et non écrite en emoji : un emoji change de
+   forme et de couleur selon la police du système, et ne s'imprime pas de
+   la même façon sur deux postes. */
+.osc-liste li::before {
+  content: "";
+  position: absolute; left: 0; top: 3px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--vert) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.4 10.3l3 3 6.2-6.6' fill='none' stroke='white' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  box-shadow: 0 2px 5px rgba(46, 125, 100, .4);
+}
+.osc-liste--puce li::before {
+  background: var(--bleu-signal);
+  width: 9px; height: 9px; top: 9px; left: 5px;
+  box-shadow: 0 0 0 4px rgba(0, 158, 219, .16);
+}
+/* Liste des douleurs (séquence PAS) : la croix dit « ce qui ne va pas »
+   sans qu'on ait à l'écrire dans chaque item. */
+.osc-liste--probleme li::before {
+  background: var(--laterite) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M6.5 6.5l7 7M13.5 6.5l-7 7' fill='none' stroke='white' stroke-width='2.3' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  box-shadow: 0 2px 5px rgba(180, 71, 46, .38);
+}
+
+/* ==========================================================================
+   10. FILET DE MARQUE
+   ========================================================================== */
+/* Cinq segments dans l'ordre de la charte. Il ouvre chaque support et sert
+   de signature : c'est lui qu'on reconnaît de loin sur une affiche. */
+.osc-filet { display: flex; height: 5px; width: 100%; }
+.osc-filet span { flex: 1; }
+.osc-filet span:nth-child(1) { background: var(--marine-800); }
+.osc-filet span:nth-child(2) { background: var(--bleu-action); }
+.osc-filet span:nth-child(3) { background: var(--bleu-signal); }
+.osc-filet span:nth-child(4) { background: var(--turquoise); }
+.osc-filet span:nth-child(5) { background: var(--or); }
+
+/* ==========================================================================
+   11. TRAMES INFOGRAPHIQUES
+   ========================================================================== */
+/* Trame de points : le fond « papier millimétré » des rapports de données.
+   Elle est en dégradés CSS et non en image — elle reste nette à toute
+   échelle, y compris sur une affiche A3 imprimée à 300 dpi. */
+.osc-trame {
+  background-image: radial-gradient(rgba(0, 158, 219, .22) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.osc-trame--sombre { background-image: radial-gradient(rgba(255, 255, 255, .16) 1px, transparent 1px); }
+
+/* Quadrillage fin, pour les blocs « analyse ». */
+.osc-quadrillage {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .07) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* ==========================================================================
+   12. PHOTOGRAPHIES
+   ========================================================================== */
+.osc-photo { position: relative; overflow: hidden; border-radius: var(--r-2); box-shadow: var(--ombre-3); }
+.osc-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Voile de lisibilité : dégradé marine du bas vers le haut. Indispensable
+   dès qu'un texte passe sur une photo — sans lui, une ligne blanche sur un
+   pagne clair devient invisible. */
+.osc-photo--voile::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(7, 26, 47, .92) 0%, rgba(7, 26, 47, .55) 42%, rgba(7, 26, 47, .12) 100%);
+}
+.osc-photo__legende {
+  position: absolute; inset: auto 0 0 0; z-index: 2;
+  padding: var(--sp-5);
+  color: var(--blanc);
+  font-size: .9rem;
+}
+
+/* Cartouche de crédit photo. Obligatoire : ces clichés sont ceux d'ateliers
+   réels et le public de Bangui reconnaît les lieux et les visages. */
+.osc-credit {
+  font-size: .7rem; color: var(--encre-40); letter-spacing: .02em;
+  margin-top: var(--sp-2);
+}
+
+/* ==========================================================================
+   13. LOGICIELS
+   ========================================================================== */
+.osc-logiciel { display: flex; gap: var(--sp-4); align-items: flex-start; }
+.osc-logiciel__icone {
+  flex: none; width: 56px; height: 56px;
+  border-radius: 14px;
+  box-shadow: var(--ombre-2), var(--biseau);
+  background: var(--blanc);
+}
+.osc-logiciel__nom { font-family: var(--titre); font-size: 1.06rem; color: var(--marine-800); margin: 0 0 2px; }
+.osc-logiciel__role { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--bleu-action); margin: 0 0 var(--sp-2); }
+.osc-logiciel__texte { font-size: .92rem; color: var(--encre-70); line-height: 1.5; margin: 0; }
+
+/* ==========================================================================
+   14. TABLEAUX
+   ========================================================================== */
+.osc-tableau { width: 100%; border-collapse: collapse; font-size: .93rem; }
+.osc-tableau thead th {
+  background: var(--marine-800); color: var(--blanc);
+  font-family: var(--titre); font-weight: 600; text-align: left;
+  padding: var(--sp-3) var(--sp-4);
+  letter-spacing: .03em;
+}
+.osc-tableau tbody td { padding: var(--sp-3) var(--sp-4); vertical-align: top; }
+/* Alternance de fond au lieu de filets horizontaux : mêmes repères pour
+   l'œil, aucune ligne à l'impression. */
+.osc-tableau tbody tr:nth-child(odd) { background: var(--bleu-050); }
+.osc-tableau tbody tr:nth-child(even) { background: var(--blanc); }
+.osc-tableau tbody tr td:first-child { font-weight: 600; color: var(--marine-800); }
+
+/* PIÈGE RENCONTRÉ : posé dans une section sombre, le tableau gardait ses
+   fonds de ligne CLAIRS tandis que le texte héritait de la couleur claire
+   de la section — donc du gris pâle sur du bleu pâle, illisible. Un tableau
+   sur fond sombre a besoin de sa propre alternance. */
+.osc-section--sombre .osc-tableau thead th { background: rgba(255, 255, 255, .10); color: var(--blanc); }
+.osc-section--sombre .osc-tableau tbody tr:nth-child(odd) { background: rgba(255, 255, 255, .05); }
+.osc-section--sombre .osc-tableau tbody tr:nth-child(even) { background: transparent; }
+.osc-section--sombre .osc-tableau tbody td { color: #C3D4E2; }
+.osc-section--sombre .osc-tableau tbody tr td:first-child { color: var(--or); font-family: var(--titre); font-size: 1.1rem; }
+
+/* ==========================================================================
+   15. IMPRESSION
+   ========================================================================== */
+@media print {
+  /* Sans cette règle, Chromium blanchit tous les aplats et l'affiche sort
+     en fantôme : c'est LE réglage qui fait la différence entre un PDF
+     « écran » et un PDF imprimable. */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: var(--blanc); }
+  .osc-sans-impression { display: none !important; }
+  /* Une carte ne doit jamais être coupée par un saut de page. */
+  .osc-carte, .osc-photo, .osc-logiciel { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+}
