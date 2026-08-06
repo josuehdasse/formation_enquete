@@ -19,6 +19,16 @@ reste à faire avant diffusion**, et **comment régénérer** ce qui s'engendre.
 | 7 | **Séquence WhatsApp** | `07_WhatsApp/Sequence_WhatsApp.md` | 9 étapes de relance |
 | 8 | **Lettres administratives** | `08_Courriers/` (3 modèles) + `.pdf` | A4, 2 pages : lettre + fiche technique annexée |
 
+**Point d'entrée :** `index.html`, à la racine — une **copie engendrée** de la
+page de vente, avec ses chemins remontés d'un niveau. C'est le fichier qui
+s'ouvre quand on double-clique sur le dossier, et celui que servira un
+hébergeur si le kit est mis en ligne tel quel.
+
+> **Ne jamais le modifier directement.** La source reste
+> `02_Page_de_vente/index.html` ; après correction, relancer
+> `python outils/copier_page_vente.py`. Le script remonte les chemins et
+> s'interrompt si l'un d'eux resterait cassé.
+
 **Support commun :** `assets/` — la feuille de style `css/osc.css`, les
 photographies étalonnées `img/`, les logos `logos/`, les codes QR `qr/`, les
 scripts `js/`.
@@ -68,7 +78,8 @@ python outils/traiter_images.py       # photographies étalonnées -> assets/img
 python outils/engendrer_marque.py     # logo du cabinet -> assets/logos/
 python outils/engendrer_logos.py      # pictogrammes des 9 logiciels
 python outils/engendrer_qr.py         # codes QR -> assets/qr/
-python outils/engendrer_visuels.py    # 12 visuels réseaux -> 04_Reseaux_sociaux/visuels/
+python outils/engendrer_visuels.py    # visuels réseaux -> 04_Reseaux_sociaux/visuels/
+python outils/copier_page_vente.py    # page de vente -> index.html à la racine
 python outils/exporter_pdf.py         # tous les PDF imprimables
 ```
 

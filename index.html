@@ -1,0 +1,1245 @@
+<!--
+  ============================================================================
+  FICHIER ENGENDRÉ — NE PAS MODIFIER À LA MAIN.
+
+  Copie de 02_Page_de_vente/index.html, ramenée à la racine du kit pour
+  servir de point d'entrée (index.html s'ouvre par défaut dans un navigateur
+  comme sur un hébergement).
+
+  Toute correction se fait dans 02_Page_de_vente/index.html, puis :
+      python outils/copier_page_vente.py
+
+  Seuls les chemins relatifs ont été remontés d'un niveau (../assets -> assets).
+  ============================================================================
+-->
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OUBANGUI STAT CONSULTING — Conduire une enquête statistique de A à Z — Bangui, rentrée du 20 août 2026</title>
+<meta name="description" content="Deux formules à Bangui pour maîtriser toute la chaîne d'un projet d'enquête : BootCamp intensif pour étudiants et doctorants, Cours du soir approfondi pour professionnels. En ligne et en présentiel. Clôture le 18 août 2026.">
+<link rel="stylesheet" href="assets/css/osc.css">
+<style>
+/* ==========================================================================
+   PAGE DE VENTE
+   Structure : PAS (Problème – Agitation – Solution) pour la moitié haute,
+   puis AIDA (Attention – Intérêt – Désir – Action) sur l'ensemble.
+
+   POURQUOI LES DEUX ET NON L'UN OU L'AUTRE. AIDA décrit le parcours GLOBAL
+   du lecteur et sert de plan général ; PAS est le moteur du premier tiers,
+   celui qui doit retenir un visiteur venu d'un lien WhatsApp. Un AIDA seul
+   ouvrirait sur la description du produit — or personne n'achète une
+   formation avant d'avoir reconnu son propre problème dedans.
+
+   Correspondance section par section, à conserver en cas de refonte :
+     héros ................ ATTENTION
+     « le pays… » ......... PROBLÈME
+     « et pour vous… » .... AGITATION
+     « la réponse » ....... SOLUTION + INTÉRÊT
+     modules, logiciels ... INTÉRÊT
+     ancrage, acquis ...... DÉSIR
+     formules, FAQ ........ levée des objections
+     appel final .......... ACTION
+   ========================================================================== */
+
+/* --- Barre supérieure -----------------------------------------------------
+   Collante, avec l'appel à l'action toujours visible : sur une page longue,
+   le lecteur décide rarement au moment précis où il croise un bouton. */
+.barre {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(7, 26, 47, .96);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 18px rgba(7, 26, 47, .32);
+}
+.barre__int {
+  max-width: 1180px; margin-inline: auto; padding: var(--sp-3) var(--sp-5);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+}
+.barre img { height: 42px; }
+.barre__droite { display: flex; align-items: center; gap: var(--sp-4); }
+.barre .osc-btn { padding: 10px 20px; font-size: .95rem; }
+
+/* --- Héros ---------------------------------------------------------------- */
+.heros { position: relative; overflow: hidden; background: var(--marine-900); }
+.heros__fond { position: absolute; inset: 0; z-index: 0; }
+.heros__fond img { width: 100%; height: 100%; object-fit: cover; }
+.heros__fond::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(7,26,47,.98) 0%, rgba(7,26,47,.93) 48%, rgba(11,37,69,.62) 100%);
+}
+.heros__int {
+  position: relative; z-index: 1;
+  max-width: 1180px; margin-inline: auto; padding: var(--sp-9) var(--sp-5);
+  color: #D3E3EF;
+}
+.heros__accroche {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-family: var(--titre); font-size: .84rem; letter-spacing: .17em;
+  text-transform: uppercase; color: #08243D;
+  background: var(--or); padding: 7px 16px; border-radius: 999px;
+  margin: 0 0 var(--sp-5);
+}
+.heros h1 {
+  color: var(--blanc); max-width: 16ch;
+  font-size: clamp(2.5rem, 6.4vw, 4.6rem);
+  font-variation-settings: "wght" 700, "wdth" 80;
+  line-height: .98; margin-bottom: var(--sp-5);
+}
+.heros h1 em { font-style: normal; color: var(--or); }
+.heros__promesse { font-size: clamp(1.06rem, 2.1vw, 1.32rem); max-width: 62ch; line-height: 1.55; }
+.heros__promesse strong { color: var(--blanc); }
+.heros__actions { display: flex; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-6); align-items: center; }
+.heros__faits {
+  display: flex; flex-wrap: wrap; gap: var(--sp-6);
+  margin-top: var(--sp-7); padding-top: var(--sp-6);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+}
+.heros__fait { min-width: 116px; }
+.heros__fait b {
+  display: block; font-family: var(--titre); font-size: 2.1rem; color: var(--or);
+  font-variation-settings: "wght" 700, "wdth" 84; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.heros__fait span { font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; color: #94AEC4; }
+
+/* --- Compteur de places ---------------------------------------------------
+   Styles partagés avec le formulaire d'inscription. Ils vivent ici et non
+   dans osc.css parce que seuls deux documents s'en servent ; les remonter
+   dans la charte donnerait à croire qu'ils sont réutilisables partout. */
+.compteur {
+  background: rgba(255,255,255,.07);
+  border-radius: var(--r-2); padding: var(--sp-4) var(--sp-5);
+  box-shadow: var(--biseau-sombre);
+  max-width: 460px;
+}
+.compteur__tete { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.compteur__phrase { color: var(--blanc); font-size: 1.02rem; }
+.compteur__phrase strong { font-family: var(--titre); font-size: 1.5rem; color: var(--or); }
+.compteur__pourcent { font-size: .82rem; color: #94AEC4; white-space: nowrap; }
+.compteur__barre {
+  height: 9px; border-radius: 999px; background: rgba(255,255,255,.14);
+  overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,.35);
+}
+.compteur__barre span {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--bleu-signal), #6FD3F5);
+  box-shadow: 0 0 12px rgba(0,158,219,.7);
+}
+.compteur--alerte .compteur__barre span { background: linear-gradient(90deg, var(--or-fonce), var(--or)); box-shadow: 0 0 12px rgba(244,185,66,.7); }
+.compteur__pied { display: flex; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-3); font-size: .78rem; color: #94AEC4; flex-wrap: wrap; }
+.compteur__pied strong { color: var(--or); }
+/* Version compacte, employée dans la barre collante et le pied de page. */
+.compteur--compact { display: flex; align-items: center; gap: var(--sp-3); background: none; box-shadow: none; padding: 0; }
+.compteur--compact .compteur__pastille { color: var(--blanc); font-size: .9rem; }
+.compteur--compact .compteur__pastille strong { color: var(--or); font-family: var(--titre); }
+.compteur--compact .compteur__delai { font-size: .78rem; color: #94AEC4; }
+
+/* --- Blocs de texte -------------------------------------------------------- */
+.chapeau { font-size: 1.18rem; line-height: 1.62; color: var(--encre-70); max-width: 66ch; }
+.section__tete { max-width: 62ch; margin-bottom: var(--sp-7); }
+
+/* --- Encadré de citation source -------------------------------------------
+   Une citation d'un document officiel n'est pas un témoignage : elle se
+   présente autrement, avec sa référence visible. C'est la pièce qui donne
+   à la page son autorité auprès des institutions. */
+.citation {
+  background: var(--blanc); border-radius: var(--r-2);
+  padding: var(--sp-6) var(--sp-6) var(--sp-5) calc(var(--sp-6) + 8px);
+  position: relative; overflow: hidden;
+  box-shadow: var(--ombre-2), var(--biseau);
+  font-family: var(--serif); font-size: 1.16rem; line-height: 1.6; color: var(--marine-800);
+}
+.citation::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--turquoise); }
+.citation__source {
+  display: block; margin-top: var(--sp-4);
+  font-family: var(--texte); font-size: .82rem; color: var(--encre-40);
+  font-style: normal;
+}
+
+/* --- Modules du parcours --------------------------------------------------- */
+.jours { display: grid; gap: var(--sp-3); }
+.jour {
+  background: var(--blanc); border-radius: var(--r-2);
+  padding: var(--sp-5) var(--sp-5) var(--sp-5) calc(var(--sp-5) + 6px);
+  box-shadow: var(--ombre-1), var(--biseau);
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 62px 1fr; gap: var(--sp-5); align-items: start;
+}
+.jour::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--bleu-signal); }
+/* Les deux derniers modules portent un rail or : ce sont ceux qui produisent
+   le LIVRABLE visible (carte, rapport, soutenance), donc l'argument de vente
+   le plus fort de la section. */
+.jour--final::before { background: var(--or); }
+.jour__num {
+  font-family: var(--titre); font-variation-settings: "wght" 700, "wdth" 84;
+  font-size: 2.1rem; line-height: 1; color: var(--bleu-action);
+  font-variant-numeric: tabular-nums;
+}
+.jour--final .jour__num { color: var(--or-fonce); }
+.jour__num small { display: block; font-family: var(--texte); font-size: .62rem; letter-spacing: .13em; text-transform: uppercase; color: var(--encre-40); margin-top: 3px; }
+.jour h3 { margin-bottom: var(--sp-2); font-size: 1.14rem; }
+.jour p { margin: 0; font-size: .95rem; color: var(--encre-70); line-height: 1.5; }
+.jour__outils { display: flex; gap: 6px; margin-top: var(--sp-3); flex-wrap: wrap; align-items: center; }
+.jour__outils img { width: 26px; height: 26px; border-radius: 7px; box-shadow: var(--ombre-1); }
+
+/* --- Planche des logiciels -------------------------------------------------- */
+.logiciel {
+  background: var(--blanc); border-radius: var(--r-2); padding: var(--sp-5);
+  box-shadow: var(--ombre-2), var(--biseau);
+  display: grid; grid-template-columns: 56px 1fr; gap: var(--sp-4); align-items: start;
+}
+.logiciel img { width: 56px; height: 56px; border-radius: 14px; box-shadow: var(--ombre-2); }
+.logiciel h3 { font-size: 1.06rem; margin: 0 0 2px; }
+.logiciel__role { font-size: .72rem; letter-spacing: .11em; text-transform: uppercase; color: var(--bleu-action); margin: 0 0 var(--sp-2); font-family: var(--titre); }
+.logiciel p { margin: 0; font-size: .9rem; color: var(--encre-70); line-height: 1.5; }
+.logiciel__licence { display: inline-block; margin-top: var(--sp-3); font-size: .72rem; color: var(--vert); font-weight: 600; }
+.logiciel__licence--payant { color: var(--or-fonce); }
+
+/* --- Alignement aux cadres --------------------------------------------------- */
+.cadre { display: grid; grid-template-columns: 74px 1fr; gap: var(--sp-4); align-items: start; }
+.cadre__sceau {
+  width: 74px; height: 74px; border-radius: 50%;
+  display: grid; place-items: center; flex: none;
+  font-family: var(--titre); font-size: 1.5rem; color: var(--blanc);
+  box-shadow: var(--ombre-2), inset 0 2px 0 rgba(255,255,255,.25);
+  text-align: center; line-height: 1;
+}
+.cadre__sceau small { display: block; font-size: .5rem; letter-spacing: .12em; opacity: .85; }
+.cadre--odd .cadre__sceau { background: linear-gradient(150deg, #26BDE2, #0A97D9); }
+.cadre--omd .cadre__sceau { background: linear-gradient(150deg, #7E8FA4, #4A5C6E); }
+.cadre--pnd .cadre__sceau { background: linear-gradient(150deg, #F4B942, #C88A12); color: #3B2600; }
+
+/* --- Intervenants -------------------------------------------------------------
+   Les noms sont le meilleur argument de la page : ils sont vérifiables, et
+   l'un des trois est directeur à l'ICASEES. La pastille d'initiales tient
+   lieu de portrait tant que le cabinet n'a pas fait tirer de photographies —
+   mieux vaut une initiale assumée qu'une silhouette générique. */
+.interv { display: grid; grid-template-columns: 64px 1fr; gap: var(--sp-4); align-items: start; }
+.interv__p {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(150deg, var(--bleu-signal), var(--bleu-action));
+  color: var(--blanc); display: grid; place-items: center;
+  font-family: var(--titre); font-size: 1.35rem; letter-spacing: .03em;
+  box-shadow: var(--ombre-2), inset 0 2px 0 rgba(255,255,255,.25);
+}
+.interv h3 { font-size: 1.04rem; margin: 0 0 3px; }
+.interv__t { font-family: var(--titre); font-size: .76rem; letter-spacing: .09em; text-transform: uppercase; color: var(--bleu-action); margin: 0 0 var(--sp-2); }
+.interv p { margin: 0; font-size: .9rem; color: var(--encre-70); line-height: 1.5; }
+
+/* --- Formules ------------------------------------------------------------------
+   DEUX cartes de MÊME poids visuel : elles ne s'adressent pas au même public,
+   il n'y a donc pas d'offre « recommandée ». Ce qui les distingue est le rail
+   de couleur et la pastille de public, jamais la taille — sans quoi on
+   pousserait un étudiant vers le tarif professionnel. */
+.offre {
+  background: linear-gradient(160deg, var(--marine-700), var(--marine-900));
+  color: #C9D8E4;
+  border-radius: var(--r-3); padding: var(--sp-6);
+  box-shadow: var(--ombre-3), var(--biseau-sombre);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: var(--sp-4);
+}
+.offre::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--bleu-signal); }
+.offre--soir::before { background: var(--or); }
+.offre h3 { color: var(--blanc); font-size: 1.55rem; margin: 0; }
+.offre__public {
+  align-self: flex-start;
+  font-family: var(--titre); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase;
+  background: rgba(255,255,255,.13); color: #A9D8F0;
+  padding: 5px 13px; border-radius: 999px;
+}
+.offre--soir .offre__public { background: rgba(244,185,66,.18); color: var(--or); }
+.offre__l { display: grid; grid-template-columns: 96px 1fr; gap: var(--sp-3); font-size: .93rem; line-height: 1.45; }
+.offre__c { font-family: var(--titre); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: #7FD0F2; padding-top: 3px; }
+.offre__v { color: var(--blanc); }
+/* PIÈGE RENCONTRÉ, à ne pas réintroduire : osc.css force `strong` en
+   marine foncé, ce qui est juste sur fond blanc mais rend le texte
+   INVISIBLE sur la carte marine. La ligne « 15 journées · 105 heures »
+   avait purement disparu. Toute carte sombre doit rétablir la couleur de
+   `strong` — c'est le pendant de ce que fait déjà `.osc-carte--sombre`. */
+.offre strong { color: var(--or); }
+.offre__prix {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp-3);
+  margin-top: auto; padding-top: var(--sp-4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
+}
+.offre__prix b {
+  font-family: var(--titre); font-size: 2.7rem; line-height: 1; color: var(--or);
+  font-variation-settings: "wght" 700, "wdth" 84; font-variant-numeric: tabular-nums;
+}
+.offre__prix u { text-decoration: none; font-family: var(--titre); font-size: 1.2rem; color: var(--or); }
+/* Le prix barré n'est pas une décoration : il chiffre la remise, donc il doit
+   rester LISIBLE. Un gris trop clair et l'argument est perdu. */
+.offre__prix s { font-size: .95rem; color: #B9CDDD; }
+.offre__prix span { font-size: .84rem; color: #A9BDCE; width: 100%; }
+
+/* --- Questions fréquentes ----------------------------------------------------- */
+.faq { display: grid; gap: var(--sp-3); }
+.faq details {
+  background: var(--blanc); border-radius: var(--r-2); padding: var(--sp-4) var(--sp-5);
+  box-shadow: var(--ombre-1), var(--biseau);
+}
+.faq summary {
+  cursor: pointer; font-family: var(--titre); font-size: 1.05rem; color: var(--marine-800);
+  list-style: none; display: flex; justify-content: space-between; align-items: center; gap: var(--sp-4);
+}
+.faq summary::-webkit-details-marker { display: none; }
+/* Le chevron est un pseudo-élément et non un caractère : il tourne
+   proprement à l'ouverture et ne dépend d'aucune police d'icônes. */
+.faq summary::after {
+  content: ""; flex: none; width: 10px; height: 10px;
+  border-right: 2.5px solid var(--bleu-action); border-bottom: 2.5px solid var(--bleu-action);
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform .2s ease;
+}
+.faq details[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.faq p { margin: var(--sp-3) 0 0; font-size: .95rem; color: var(--encre-70); line-height: 1.55; }
+
+/* --- Frise du calendrier ---------------------------------------------------------
+   Cinq dates dont deux sont AVANT l'ouverture : c'est l'information qui
+   rassure le plus (« on ne me lâchera pas dans la salle sans préparation »)
+   et personne ne la cherche dans un paragraphe. Elle a donc sa propre frise. */
+.frise { display: grid; gap: 0; }
+.frise__e { display: grid; grid-template-columns: 190px 1fr; gap: var(--sp-5); padding: var(--sp-4) 0; position: relative; }
+.frise__e + .frise__e { box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
+.frise__d { font-family: var(--titre); font-size: 1rem; color: var(--or); }
+.frise__t { color: #C3D4E2; font-size: .95rem; line-height: 1.5; }
+
+
+/* --- La première promotion : preuve sociale ----------------------------------
+   C'est la SEULE section de la page qui ne démontre rien et n'argumente pas :
+   elle montre. Des gens ont fini le parcours et tiennent leur attestation.
+   Après quinze écrans d'arguments, c'est ce qui fait basculer un indécis —
+   d'où sa place juste avant le choix de la formule.
+
+   Les noms des lauréats sont floutés à la source (voir outils/traiter_images.py) :
+   diffuser l'identité de personnes privées dans une campagne commerciale
+   suppose leur accord écrit, un par un. */
+.promo { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp-5); }
+.promo__grande { grid-row: span 2; }
+.promo figure { margin: 0; position: relative; overflow: hidden; border-radius: var(--r-2); box-shadow: var(--ombre-3); height: 100%; }
+.promo figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* La légende est posée SUR la photographie, en bas, sur un dégradé : une
+   légende sous l'image casserait l'alignement de la grille. */
+.promo figcaption {
+  position: absolute; inset: auto 0 0 0;
+  padding: var(--sp-5) var(--sp-4) var(--sp-3);
+  /* Le dégradé monte haut et vite : le titre de la légende est en or, et
+     l'or sur une chemise claire ne passe pas. Testé à .70 : illisible. */
+  background: linear-gradient(to top, rgba(7,26,47,.97) 0%, rgba(7,26,47,.88) 45%, rgba(7,26,47,0) 100%);
+  padding-top: var(--sp-7);
+  color: var(--blanc); font-size: .84rem; line-height: 1.35;
+}
+.promo figcaption b { color: var(--or); display: block; font-family: var(--titre); font-size: .95rem; }
+@media (max-width: 760px) {
+  .promo { grid-template-columns: 1fr; }
+  .promo__grande { grid-row: auto; }
+  .promo figure { aspect-ratio: 3/2; }
+}
+
+/* --- Appel final ---------------------------------------------------------------- */
+.final { position: relative; overflow: hidden; background: var(--marine-900); }
+.final__fond { position: absolute; inset: 0; }
+.final__fond img { width: 100%; height: 100%; object-fit: cover; opacity: .5; }
+.final__fond::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,26,47,.92), rgba(7,26,47,.97)); }
+.final__int { position: relative; z-index: 1; text-align: center; }
+.final h2 { color: var(--blanc); font-size: clamp(2rem, 4.4vw, 3.1rem); }
+.final .compteur { margin-inline: auto; }
+
+/* --- Pied ------------------------------------------------------------------------ */
+.pied { background: #050F1D; color: #6E8598; padding-block: var(--sp-7); font-size: .86rem; }
+.pied a { color: #8FD3F0; }
+.pied img { height: 52px; margin-bottom: var(--sp-4); }
+.pied__grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--sp-6); }
+.pied h4 { color: #B7C8D6; font-size: .84rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: var(--sp-3); }
+.pied__mentions { margin-top: var(--sp-6); padding-top: var(--sp-5); box-shadow: inset 0 1px 0 rgba(255,255,255,.09); font-size: .76rem; line-height: 1.6; }
+
+
+/* --- Adaptations mobiles ---------------------------------------------------------
+   La page est majoritairement lue sur téléphone, depuis un lien WhatsApp. */
+@media (max-width: 760px) {
+  .barre__droite .barre__lien { display: none; }
+  .heros__int { padding-block: var(--sp-7); }
+  .jour { grid-template-columns: 46px 1fr; gap: var(--sp-4); }
+  .jour__num { font-size: 1.6rem; }
+  .frise__e { grid-template-columns: 1fr; gap: var(--sp-1); }
+  .osc-section { padding-block: var(--sp-7); }
+}
+</style>
+</head>
+<body>
+
+<div class="osc-filet"><span></span><span></span><span></span><span></span><span></span></div>
+
+<header class="barre">
+  <div class="barre__int">
+    <a href="#"><img src="assets/logos/logo-osc-blanc.svg" alt="Oubangui Stat Consulting"></a>
+    <div class="barre__droite">
+      <div class="barre__lien" data-compteur="compact">
+        <!-- Secours sans JavaScript : voir assets/js/compteur.js -->
+        <span class="compteur__pastille"><strong>23</strong> places restantes sur 30</span>
+      </div>
+      <a class="osc-btn osc-btn--or" href="06_Inscription/inscription.html">Réserver ma place</a>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= ATTENTION ======================= -->
+<section class="heros">
+  <div class="heros__fond">
+    <img src="assets/img/salle-duo-16x9.jpg" alt="Salle informatique à Bangui, participants en formation sur ordinateurs portables">
+  </div>
+  <div class="heros__int">
+    <p class="heros__accroche">2<sup>e</sup> édition · Rentrée du 20 août 2026 · en ligne et en présentiel</p>
+    <h1>Devenez la personne qui fait <em>parler les données</em></h1>
+    <p class="heros__promesse">
+      Maîtrisez <strong>toute la chaîne d’un projet d’enquête</strong> : de la problématique au
+      rapport soutenu devant un décideur. Pas un cours magistral — une mission complète, conduite
+      du premier au dernier jour, sur une question centrafricaine réelle.
+      <strong>Seconde édition</strong>, revue avec les retours de la première promotion.
+      <strong>Deux formules</strong> : BootCamp intensif pour les étudiants et doctorants,
+      Cours du soir approfondi pour les professionnels et les institutions.
+    </p>
+
+    <div class="heros__actions">
+      <a class="osc-btn osc-btn--or" href="#formules">Voir les deux formules</a>
+      <a class="osc-btn osc-btn--fantome" href="#parcours">Voir les 10 modules</a>
+    </div>
+
+    <div style="margin-top:var(--sp-6)" data-compteur>
+      <div class="compteur__tete">
+        <span class="compteur__phrase"><strong>23</strong> places restantes sur 30</span>
+        <span class="compteur__pourcent">23&nbsp;% pourvues</span>
+      </div>
+      <div class="compteur__barre" aria-hidden="true"><span style="width:23%"></span></div>
+      <div class="compteur__pied"><span>Clôture le 18 août 2026</span><span>Pointage du 6 août 2026</span></div>
+    </div>
+
+    <div class="heros__faits">
+      <div class="heros__fait"><b>2</b><span>formules</span></div>
+      <div class="heros__fait"><b>10</b><span>modules</span></div>
+      <div class="heros__fait"><b>9</b><span>logiciels</span></div>
+      <div class="heros__fait"><b>3</b><span>ingénieurs statisticiens</span></div>
+      <div class="heros__fait"><b>1</b><span>étude complète</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PROBLÈME ======================= -->
+<section class="osc-section osc-section--clair">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Le contexte centrafricain</p>
+      <h2>Le pays n’a jamais autant produit de données. Il manque de gens pour les faire parler.</h2>
+      <p class="chapeau">
+        La République centrafricaine a lancé son quatrième recensement général de la population,
+        vingt-deux ans après le précédent. Elle pilote un Plan national de développement doté de
+        7 040 milliards de FCFA, dont chaque axe se mesure à des indicateurs. Elle rend compte de
+        66 cibles des Objectifs de développement durable. Tout cela repose sur une seule chose :
+        des personnes capables de concevoir une enquête, de la conduire et d’en tirer des conclusions défendables.
+      </p>
+    </div>
+
+    <div class="osc-grille osc-grille--2" style="margin-bottom:var(--sp-6)">
+      <div class="citation">
+        « Insuffisance de données fiables, exhaustives et désagrégées sensibles au genre
+        et aux personnes vivant avec un handicap. »
+        <span class="citation__source">
+          Plan national de développement 2024-2028, matrice des risques de mise en œuvre.
+          Mesure d’atténuation retenue : « renforcer les capacités du système statistique national,
+          notamment des structures en charge de la production des données statistiques ».
+        </span>
+      </div>
+      <div class="citation">
+        « Mise à jour du cadre juridique du système statistique national, renforcer les
+        capacités humaines et matérielles, étendre la couverture thématique et géographique. »
+        <span class="citation__source">
+          PND-RCA 2024-2028, action prioritaire de niveau élevé (H 63), axe stratégique 1 —
+          gouvernance et État de droit.
+        </span>
+      </div>
+    </div>
+
+    <div class="osc-grille osc-grille--4">
+      <div class="osc-carte osc-carte--rail">
+        <div class="osc-chiffre">
+          <span class="osc-chiffre__valeur">2003</span>
+          <div class="osc-chiffre__libelle">Année du dernier recensement général achevé. Le RGPH-4 est en cours.</div>
+          <div class="osc-chiffre__source">Source : PND-RCA 2024-2028</div>
+        </div>
+      </div>
+      <div class="osc-carte osc-carte--rail osc-carte--rail-turquoise">
+        <div class="osc-chiffre">
+          <span class="osc-chiffre__valeur">68,8 %</span>
+          <div class="osc-chiffre__libelle">de la population en pauvreté chronique — un chiffre qu’il faut savoir mesurer pour agir dessus.</div>
+          <div class="osc-chiffre__source">Source : EHCVM 2021, ICASEES</div>
+        </div>
+      </div>
+      <div class="osc-carte osc-carte--rail osc-carte--rail-or">
+        <div class="osc-chiffre">
+          <span class="osc-chiffre__valeur">50 %</span>
+          <div class="osc-chiffre__libelle">des chômeurs urbains ont moins de 25 ans et n’ont jamais travaillé.</div>
+          <div class="osc-chiffre__source">Source : PND-RCA 2024-2028</div>
+        </div>
+      </div>
+      <div class="osc-carte osc-carte--rail osc-carte--rail-laterite">
+        <div class="osc-chiffre">
+          <span class="osc-chiffre__valeur">84 / 108</span>
+          <div class="osc-chiffre__libelle">Taux brut de scolarisation des filles contre celui des garçons, en 2021. Une donnée désagrégée qui change une politique.</div>
+          <div class="osc-chiffre__source">Source : PND-RCA 2024-2028</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= AGITATION ======================= -->
+<section class="osc-section osc-section--sombre osc-trame osc-trame--sombre">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Et pour vous, concrètement</p>
+      <h2>La demande existe. Le diplôme ne suffit pas à y répondre.</h2>
+      <p class="chapeau" style="color:#A9BDCE">
+        Les recruteurs des ONG, des agences des Nations unies, des instituts nationaux et des cabinets
+        d’études ne demandent pas « avez-vous étudié la statistique ». Ils demandent :
+        <strong>« avez-vous déjà conduit une enquête »</strong>. Entre les deux, il y a un écart que
+        l’université, seule, ne comble pas.
+      </p>
+    </div>
+
+    <div class="osc-grille osc-grille--2">
+      <div class="osc-carte osc-carte--sombre">
+        <h3>Votre mémoire s’enlise sur la méthode</h3>
+        <p>Le sujet tient. La problématique, l’échantillon et le plan d’analyse, moins.
+          Le jury n’attaque jamais le thème : il attaque la méthode.</p>
+      </div>
+      <div class="osc-carte osc-carte--sombre">
+        <h3>Vous dépendez de quelqu’un d’autre</h3>
+        <p>Vous collectez, puis vous confiez les données à un tiers pour l’analyse.
+          Vous ne maîtrisez ni le calendrier, ni la qualité, ni ce qui sort.</p>
+      </div>
+      <div class="osc-carte osc-carte--sombre">
+        <h3>Vous connaissez des logiciels, pas un métier</h3>
+        <p>Savoir cliquer dans SPSS n’est pas savoir bâtir un plan de sondage,
+          superviser vingt enquêteurs ou défendre un taux de non-réponse.</p>
+      </div>
+      <div class="osc-carte osc-carte--sombre">
+        <h3>Votre CV ne prouve rien</h3>
+        <p>Aucun protocole, aucun questionnaire, aucun rapport à montrer.
+          À compétences égales, c’est le dossier de travaux qui départage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SOLUTION ======================= -->
+<section class="osc-section osc-section--bleute">
+  <div class="osc-large">
+    <div class="osc-grille" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); align-items:center; gap:var(--sp-8)">
+      <div>
+        <p class="osc-surtitre">La réponse</p>
+        <h2>Une mission complète, pas dix modules séparés</h2>
+        <p class="chapeau">
+          Vous ne suivez pas dix cours indépendants. Vous conduisez <strong>une seule étude</strong>,
+          du premier au dernier jour, comme en mission : vous cadrez, vous concevez, vous allez sur le
+          terrain à Bangui, vous apurez, vous analysez, vous cartographiez, vous rédigez, vous soutenez.
+        </p>
+        <ul class="osc-liste" style="margin-top:var(--sp-5)">
+          <li><strong>En ligne et en présentiel</strong> : suivez depuis Bangui, la province ou l’étranger, sur Zoom, ou venez en salle.</li>
+          <li>Un poste de travail par participant, un encadrant rapproché.</li>
+          <li>Une sortie de collecte réelle dans un arrondissement de Bangui.</li>
+          <li>Des jeux de données centrafricains, pas des exemples importés.</li>
+          <li>Un jury blanc en fin de parcours, avec restitution chronométrée.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="osc-photo" style="aspect-ratio:3/2">
+          <img src="assets/img/carte-ecran-3x2.jpg" alt="Carte de la République centrafricaine ouverte dans un logiciel de cartographie pendant la formation">
+        </div>
+        <p class="osc-credit">Travaux cartographiques sur données nationales — atelier conduit par le cabinet, Bangui, mai 2026.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= INTÉRÊT — les modules ======================= -->
+<section class="osc-section osc-section--clair" id="parcours">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Le parcours</p>
+      <h2>Dix modules, dix étapes du métier</h2>
+      <p class="chapeau">
+        Les <strong>mêmes dix modules</strong> dans les deux formules. Le BootCamp les traite en
+        15 journées de sept heures ; le Cours du soir les étale sur 60 séances de cinq heures, avec
+        les approfondissements métier et les cas d’opérationnalisation en plus.
+        Chaque module se termine par une pièce livrée et corrigée : à la fin, ces pièces forment
+        votre dossier de travaux.
+      </p>
+    </div>
+
+    <div class="jours">
+      <article class="jour">
+        <div class="jour__num">01<small>Module</small></div>
+        <div>
+          <h3>Cadrer la demande : du problème au protocole</h3>
+          <p>Lire des termes de référence, reformuler une commande floue, poser la problématique,
+            les questions d’évaluation et les objectifs. <strong>Livrable : votre note de cadrage.</strong></p>
+        </div>
+      </article>
+      <article class="jour">
+        <div class="jour__num">02<small>Module</small></div>
+        <div>
+          <h3>Concevoir le questionnaire</h3>
+          <p>Du concept à la variable, de la variable à la question. Formulation, modalités, filtres,
+            ordre, durée d’administration, traduction et pré-test en sango.
+            <strong>Livrable : votre questionnaire pré-testé.</strong></p>
+        </div>
+      </article>
+      <article class="jour">
+        <div class="jour__num">03<small>Module</small></div>
+        <div>
+          <h3>Construire le plan d’échantillonnage</h3>
+          <p>Base de sondage, tirage aléatoire simple, stratifié, en grappes à deux degrés.
+            Taille d’échantillon, marge d’erreur, pondérations et redressement.
+            <strong>Livrable : votre plan de sondage chiffré.</strong></p>
+        </div>
+      </article>
+      <article class="jour">
+        <div class="jour__num">04<small>Module</small></div>
+        <div>
+          <h3>Numériser le questionnaire</h3>
+          <p>Logique XLSForm : types de questions, contraintes, sauts, calculs, groupes et répétitions.
+            Déploiement sur tablette et sur téléphone, mode hors connexion.
+            <strong>Livrable : votre formulaire déployé.</strong></p>
+          <div class="jour__outils">
+            <img src="assets/logos/kobo.svg" alt="KoboToolbox">
+            <img src="assets/logos/odk.svg" alt="ODK Collect">
+            <img src="assets/logos/googleforms.svg" alt="Google Forms">
+          </div>
+        </div>
+      </article>
+      <article class="jour">
+        <div class="jour__num">05<small>Module</small></div>
+        <div>
+          <h3>Organiser et superviser la collecte — sortie terrain</h3>
+          <p>Recrutement et formation des enquêteurs, découpage des itinéraires, gestion des refus
+            et des incidents, contrôle qualité en cours de collecte. Sortie réelle dans un
+            arrondissement de Bangui. <strong>Livrable : vos données collectées.</strong></p>
+        </div>
+      </article>
+      <article class="jour">
+        <div class="jour__num">06<small>Module</small></div>
+        <div>
+          <h3>Apurer, documenter, archiver, sécuriser</h3>
+          <p>Contrôles de cohérence, valeurs aberrantes et manquantes, recodage, dictionnaire des
+            variables, plan d’archivage, anonymisation et protection des données personnelles.
+            <strong>Livrable : votre base propre et documentée.</strong></p>
+          <div class="jour__outils"><img src="assets/logos/excel.svg" alt="Excel"></div>
+        </div>
+      </article>
+      <article class="jour">
+        <div class="jour__num">07<small>Module</small></div>
+        <div>
+          <h3>Analyser : les descriptions qui tiennent</h3>
+          <p>Tris à plat et croisés, pondération, indicateurs composites, intervalles de confiance.
+            Savoir ce qu’on a le droit de conclure — et ce qu’on n’a pas le droit de dire.
+            <strong>Livrable : vos tableaux d’analyse.</strong></p>
+          <div class="jour__outils">
+            <img src="assets/logos/excel.svg" alt="Excel">
+            <img src="assets/logos/spss.svg" alt="IBM SPSS Statistics">
+          </div>
+        </div>
+      </article>
+      <article class="jour">
+        <div class="jour__num">08<small>Module</small></div>
+        <div>
+          <h3>Aller plus loin : tests et modèles</h3>
+          <p>Comparaisons de moyennes et de proportions, tests d’indépendance, corrélation,
+            régression linéaire et logistique. Interprétation en langage de décideur.
+            <strong>Livrable : vos scripts d’analyse commentés.</strong></p>
+          <div class="jour__outils">
+            <img src="assets/logos/stata.svg" alt="Stata">
+            <img src="assets/logos/r.svg" alt="R et RStudio">
+          </div>
+        </div>
+      </article>
+      <article class="jour jour--final">
+        <div class="jour__num">09<small>Module</small></div>
+        <div>
+          <h3>Donner à voir : graphiques, cartes, tableau de bord</h3>
+          <p>Règles de visualisation, choix du graphique juste, cartographie thématique des
+            préfectures et des arrondissements, tableau de bord de suivi d’indicateurs.
+            <strong>Livrable : votre planche de résultats et votre carte.</strong></p>
+          <div class="jour__outils">
+            <img src="assets/logos/r.svg" alt="R et RStudio">
+            <img src="assets/logos/qgis.svg" alt="QGIS">
+            <img src="assets/logos/powerbi.svg" alt="Power BI">
+          </div>
+        </div>
+      </article>
+      <article class="jour jour--final">
+        <div class="jour__num">10<small>Module</small></div>
+        <div>
+          <h3>Rédiger et soutenir</h3>
+          <p>Plan type d’un rapport d’étude, note de synthèse de deux pages, résumé exécutif,
+            règles de citation des sources. Puis soutenance de dix minutes devant un jury blanc.
+            <strong>Livrable : votre rapport et votre présentation.</strong></p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= INTÉRÊT — les logiciels ======================= -->
+<section class="osc-section osc-section--bleute">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Les outils</p>
+      <h2>Neuf logiciels, chacun à sa place dans la chaîne</h2>
+      <p class="chapeau">
+        On n’apprend pas neuf logiciels pour la collection. Chacun intervient là où il est le meilleur,
+        et vous repartez en sachant lequel ouvrir devant quel problème.
+      </p>
+    </div>
+
+    <div class="osc-grille osc-grille--3">
+      <article class="logiciel">
+        <img src="assets/logos/kobo.svg" alt="">
+        <div>
+          <h3>KoboToolbox</h3>
+          <p class="logiciel__role">Collecte mobile</p>
+          <p>La plateforme d’enquête des ONG et des agences humanitaires. Conception du formulaire,
+            déploiement sur les téléphones des enquêteurs, collecte hors connexion, remontée automatique
+            des soumissions et suivi de la collecte en temps réel.</p>
+          <span class="logiciel__licence">Gratuit — compte humanitaire</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/odk.svg" alt="">
+        <div>
+          <h3>ODK Collect</h3>
+          <p class="logiciel__role">Collecte mobile</p>
+          <p>La brique libre sur laquelle repose l’essentiel de la collecte assistée par tablette.
+            Même logique XLSForm que Kobo, mais serveur maîtrisé de bout en bout — le choix des
+            institutions qui doivent garder leurs données chez elles.</p>
+          <span class="logiciel__licence">Libre et gratuit</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/googleforms.svg" alt="">
+        <div>
+          <h3>Google Forms</h3>
+          <p class="logiciel__role">Collecte légère</p>
+          <p>L’outil du sondage rapide, de la pré-enquête et de la consultation interne.
+            Ses limites sont enseignées autant que ses usages : ce qu’il ne faut jamais lui confier,
+            et pourquoi.</p>
+          <span class="logiciel__licence">Gratuit</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/excel.svg" alt="">
+        <div>
+          <h3>Microsoft Excel</h3>
+          <p class="logiciel__role">Apurement et calcul</p>
+          <p>Le format que tout le monde vous enverra. Tableaux croisés dynamiques, formules de
+            contrôle, repérage des doublons et des incohérences, mise en forme conditionnelle pour
+            l’apurement, export propre vers les logiciels d’analyse.</p>
+          <span class="logiciel__licence logiciel__licence--payant">Licence — alternative libre présentée</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/spss.svg" alt="">
+        <div>
+          <h3>IBM SPSS Statistics</h3>
+          <p class="logiciel__role">Analyse par menus</p>
+          <p>La référence des mémoires universitaires et des services d’études. Tris, croisements,
+            tests, pondération, analyse factorielle. Prise en main par menus, puis passage à la syntaxe
+            — parce qu’une analyse non scriptée n’est pas reproductible.</p>
+          <span class="logiciel__licence logiciel__licence--payant">Licence — version d’essai fournie</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/stata.svg" alt="">
+        <div>
+          <h3>Stata</h3>
+          <p class="logiciel__role">Analyse en économie et santé</p>
+          <p>L’outil des économistes, des épidémiologistes et des enquêtes ménages. Gestion native
+            des plans de sondage complexes et des pondérations — ce que peu de logiciels font
+            correctement, et ce qui sépare une estimation juste d’une estimation fausse.</p>
+          <span class="logiciel__licence logiciel__licence--payant">Licence — version d’essai fournie</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/r.svg" alt="">
+        <div>
+          <h3>R et RStudio</h3>
+          <p class="logiciel__role">Analyse et graphiques</p>
+          <p>Libre, gratuit, sans limite de taille de fichier ni de licence à renouveler.
+            Nettoyage, analyse, graphiques de qualité publication et rapports qui se régénèrent
+            tout seuls quand les données changent. Vous repartez avec vos scripts.</p>
+          <span class="logiciel__licence">Libre et gratuit</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/qgis.svg" alt="">
+        <div>
+          <h3>QGIS</h3>
+          <p class="logiciel__role">Cartographie</p>
+          <p>Représenter un indicateur sur les préfectures, les sous-préfectures ou les
+            arrondissements de Bangui. Jointure entre une base d’enquête et un fond de carte,
+            choix des classes, sémiologie graphique, export imprimable.</p>
+          <span class="logiciel__licence">Libre et gratuit</span>
+        </div>
+      </article>
+      <article class="logiciel">
+        <img src="assets/logos/powerbi.svg" alt="">
+        <div>
+          <h3>Power BI</h3>
+          <p class="logiciel__role">Tableau de bord</p>
+          <p>Passer d’un rapport figé à un tableau de bord que le décideur manipule lui-même :
+            filtres, séries, alertes de seuil. Le format attendu par les directions de
+            suivi-évaluation et les bailleurs.</p>
+          <span class="logiciel__licence">Version gratuite suffisante</span>
+        </div>
+      </article>
+    </div>
+
+    <p class="osc-credit" style="margin-top:var(--sp-6); max-width:80ch">
+      Les marques et noms de logiciels cités appartiennent à leurs propriétaires respectifs.
+      Leur mention désigne les outils enseignés pendant la formation et n’implique aucun
+      partenariat, parrainage ni affiliation.
+    </p>
+  </div>
+</section>
+
+<!-- ======================= DÉSIR — les intervenants ======================= -->
+<section class="osc-section osc-section--clair">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Qui vous forme</p>
+      <h2>Trois ingénieurs statisticiens, pas des animateurs</h2>
+      <p class="chapeau">
+        Ceux qui enseignent conduisent des enquêtes pour de vrai — dans l’institut national de
+        statistique, dans les projets de développement, dans les systèmes d’information qui font
+        tourner le suivi-évaluation. <strong>Les chiffres nationaux cités plus haut sur cette
+        page, l’un d’eux les a produits.</strong>
+      </p>
+    </div>
+
+    <div class="osc-grille osc-grille--3">
+      <div class="osc-carte interv">
+        <div class="interv__p">DN</div>
+        <div>
+          <h3>DASSE TE NGBOKOTA Josué Honoré</h3>
+          <p class="interv__t">Ingénieur statisticien</p>
+          <p>Spécialiste MEAL, analyste quantitatif et développeur de systèmes d’informations
+            décisionnelles. Conduit les modules de numérisation, d’analyse et de restitution.</p>
+        </div>
+      </div>
+      <div class="osc-carte interv">
+        <div class="interv__p">ZK</div>
+        <div>
+          <h3>ZIA KOYANGBO Arsène</h3>
+          <p class="interv__t">Ingénieur statisticien économiste · Directeur à l’ICASEES</p>
+          <p>Seize ans d’expérience. <strong>Directeur technique de l’EHCVM 2021</strong> —
+            l’enquête nationale dont cette page cite les chiffres — et participant aux travaux
+            techniques d’élaboration du <strong>PND 2024-2028</strong>. Consultant principal de la
+            deuxième Monographie communale, consultant pour l’UNFPA et la Banque mondiale.
+            Formé à l’ISSEA de Yaoundé et à l’ENSEA d’Abidjan.
+            Conduit les modules de cadrage, de questionnaire et d’échantillonnage.</p>
+        </div>
+      </div>
+      <div class="osc-carte interv">
+        <div class="interv__p">DM</div>
+        <div>
+          <h3>DAVY MAKOSSO</h3>
+          <p class="interv__t">Ingénieur statisticien</p>
+          <p>Spécialiste en traitement et analyse des données. Conduit les modules d’apurement,
+            de documentation et d’analyse approfondie.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DÉSIR — ancrage national ======================= -->
+<section class="osc-section osc-section--sombre osc-quadrillage">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Ancrage</p>
+      <h2>Une compétence alignée sur les engagements du pays</h2>
+      <p class="chapeau" style="color:#A9BDCE">
+        Ce que vous apprenez ici n’est pas un savoir hors sol : c’est exactement la capacité que
+        les cadres nationaux — mondiaux, continentaux et centrafricains — désignent comme manquante.
+      </p>
+    </div>
+
+    <div class="osc-grille osc-grille--3">
+      <div class="osc-carte osc-carte--sombre cadre cadre--odd">
+        <div class="cadre__sceau">17<small>ODD</small></div>
+        <div>
+          <h3>Objectifs de développement durable</h3>
+          <p style="font-size:.93rem; line-height:1.55">
+            17 objectifs, 169 cibles, horizon 2030. Deux cibles portent précisément sur ce métier :
+            <strong>17.18</strong>, qui appelle des données de qualité, actualisées et désagrégées
+            par sexe, âge, handicap et localisation ; <strong>17.19</strong>, qui appelle le
+            renforcement des capacités statistiques. Les modules 2, 3 et 6 y répondent directement.
+          </p>
+        </div>
+      </div>
+
+      <div class="osc-carte osc-carte--sombre cadre cadre--omd">
+        <div class="cadre__sceau">8<small>OMD</small></div>
+        <div>
+          <h3>Objectifs du Millénaire — la leçon</h3>
+          <p style="font-size:.93rem; line-height:1.55">
+            8 objectifs, 21 cibles, 60 indicateurs, de 2000 à 2015. Le bilan a montré partout la
+            même limite : on ne pouvait pas prouver les progrès faute de mesures régulières.
+            Les ODD ont donc <strong>multiplié par trois</strong> l’exigence de mesure.
+            C’est cette exigence qui crée les postes d’aujourd’hui.
+          </p>
+        </div>
+      </div>
+
+      <div class="osc-carte osc-carte--sombre cadre cadre--pnd">
+        <div class="cadre__sceau">5<small>AXES</small></div>
+        <div>
+          <h3>PND-RCA 2024-2028</h3>
+          <p style="font-size:.93rem; line-height:1.55">
+            Le plan quinquennal en vigueur couvre <strong>66 cibles ODD</strong> réparties sur cinq axes,
+            et fait de la finalisation du RGPH-4 un objectif stratégique à part entière.
+            Son cadre de résultats se renseigne « sur la base d’un programme d’enquêtes » —
+            c’est-à-dire sur le travail que cette formation enseigne.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="osc-carte osc-carte--sombre" style="margin-top:var(--sp-5)">
+      <h3>Les cinq axes du PND, et ce que chacun exige comme données</h3>
+      <table class="osc-tableau" style="margin-top:var(--sp-4); background:transparent">
+        <thead>
+          <tr><th style="width:64px">Axe</th><th>Intitulé</th><th style="width:110px">Cibles ODD</th><th>Ce que le suivi demande</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Renforcement de la sécurité, promotion de la gouvernance et de l’État de droit</td><td>9</td><td>Enquêtes de perception, indicateurs de gouvernance</td></tr>
+          <tr><td>2</td><td>Développement du capital humain et accès équitable à des services sociaux de base de qualité</td><td>15</td><td>Enquêtes ménages, données désagrégées par sexe et par âge</td></tr>
+          <tr><td>3</td><td>Développement des infrastructures résilientes et durables</td><td>10</td><td>Recensements d’équipements, données géolocalisées</td></tr>
+          <tr><td>4</td><td>Accélération de la production et des chaînes de valeur dans les filières productives</td><td>18</td><td>Enquêtes agricoles, recensement des unités économiques</td></tr>
+          <tr><td>5</td><td>Durabilité environnementale et résilience face aux crises et au changement climatique</td><td>14</td><td>Suivi cartographique, séries temporelles</td></tr>
+        </tbody>
+      </table>
+      <p class="osc-chiffre__source" style="margin-top:var(--sp-4)">
+        Intitulés et décomptes de cibles : Plan national de développement de la République centrafricaine
+        2024-2028, section 2.10.1 « Alignement du PND-RCA avec les agendas internationaux ».
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DÉSIR — ce que vous emportez ======================= -->
+<section class="osc-section osc-section--clair">
+  <div class="osc-large">
+    <div class="osc-grille" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:var(--sp-8); align-items:center">
+      <div>
+        <div class="osc-photo" style="aspect-ratio:4/3">
+          <img src="assets/img/analyse-4x3.jpg" alt="Participante analysant des données sur ordinateur pendant la formation">
+        </div>
+        <p class="osc-credit">Atelier d’analyse — Bangui, mai 2026.</p>
+      </div>
+      <div>
+        <p class="osc-surtitre">Ce que vous emportez</p>
+        <h2>À la fin, vous ne repartez pas les mains vides</h2>
+        <ul class="osc-liste" style="margin-top:var(--sp-5)">
+          <li><strong>Le certificat</strong> de fin de parcours, remis en séance de clôture.</li>
+          <li><strong>Votre dossier de travaux</strong> : note de cadrage, questionnaire, plan de sondage, base apurée, rapport et présentation.</li>
+          <li><strong>Les supports complets</strong> et les vidéos des séances, à revoir sans limite.</li>
+          <li><strong>Des jeux de données centrafricains</strong> réels, réutilisables pour vous entraîner.</li>
+          <li><strong>Vos codes d’analyse</strong> en R, Stata et syntaxe SPSS, commentés ligne à ligne.</li>
+          <li><strong>Les modèles du cabinet</strong> : plan type de rapport d’étude, grille de contrôle qualité, canevas de note de synthèse.</li>
+          <li><strong>Les installateurs</strong> des logiciels, installés avec vous dès la séance du 19 août.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PREUVE — la première promotion ======================= -->
+<section class="osc-section osc-section--sombre osc-quadrillage">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">La première promotion</p>
+      <h2>Ils l’ont fait avant vous. En janvier, ils ont reçu leur attestation.</h2>
+      <p class="chapeau" style="color:#A9BDCE">
+        La première édition n’est pas une promesse : elle est allée jusqu’au bout. Étude complète,
+        soutenance devant un jury, remise des attestations de réussite.
+        <strong>La seconde édition reprend le même parcours</strong>, revu à partir des retours de
+        cette promotion.
+      </p>
+    </div>
+
+    <div class="promo">
+      <figure class="promo__grande">
+        <img src="assets/img/promotion-1re-3x2.jpg" alt="Quatre lauréats de la première promotion tenant leur attestation de réussite, Bangui, janvier 2026">
+        <figcaption>
+          <b>Remise des attestations de réussite</b>
+          Bangui, janvier 2026 — au terme du parcours complet, soutenance comprise.
+        </figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/remise-laureate-4x3.jpg" alt="Une lauréate recevant son attestation de réussite">
+        <figcaption><b>Avril 2026</b>Session suivante, même parcours.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/img/celebration-3x2.jpg" alt="Lauréats célébrant la remise de leurs attestations">
+        <figcaption><b>Le dernier jour</b>Ce qu’on vient chercher ici.</figcaption>
+      </figure>
+    </div>
+
+    <p class="osc-credit" style="margin-top:var(--sp-5); color:#74899C; max-width:80ch">
+      Photographies prises lors des remises d’attestations de la première édition.
+      Les noms portés sur les attestations ont été rendus illisibles : ce sont des personnes
+      privées, et leur identité n’a pas à circuler dans une campagne.
+    </p>
+  </div>
+</section>
+
+<!-- ======================= LES DEUX FORMULES ======================= -->
+<section class="osc-section osc-section--bleute" id="formules">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Participation</p>
+      <h2>Deux formules, un seul programme</h2>
+      <p class="chapeau">
+        Les mêmes dix modules, les mêmes intervenants, le même certificat. Ce qui change, c’est le
+        rythme et le public — choisissez celle qui tient dans votre semaine.
+        <strong>Les deux se suivent en ligne sur Zoom ou en présentiel.</strong>
+      </p>
+    </div>
+
+    <div class="osc-grille osc-grille--2" style="align-items:stretch">
+
+      <article class="offre">
+        <span class="offre__public">Étudiants et doctorants</span>
+        <h3>BootCamp intensif</h3>
+        <div class="offre__l"><div class="offre__c">Dates</div><div class="offre__v">Du 20 août au 5 septembre 2026<br><strong>15 journées · 105 heures</strong></div></div>
+        <div class="offre__l"><div class="offre__c">Rythme</div><div class="offre__v">Du lundi au samedi, 09 h – 17 h<br>pause de 13 h à 14 h</div></div>
+        <div class="offre__l"><div class="offre__c">Où</div><div class="offre__v">En ligne (Zoom) et en présentiel<br>Université de Bangui</div></div>
+        <div class="offre__l"><div class="offre__c">Format</div><div class="offre__v">Immersif : toute la chaîne d’enquête condensée en trois semaines, pensée pour un mémoire ou une thèse en cours.</div></div>
+        <div class="offre__prix">
+          <b>100 000</b><u>FCFA</u><s>au lieu de 250 000</s>
+          <span>Paiement unique au démarrage</span>
+        </div>
+        <a class="osc-btn osc-btn--or" href="06_Inscription/inscription.html?formule=bootcamp">M’inscrire au BootCamp</a>
+      </article>
+
+      <article class="offre offre--soir">
+        <span class="offre__public">Professionnels et institutions</span>
+        <h3>Cours du soir approfondi</h3>
+        <div class="offre__l"><div class="offre__c">Dates</div><div class="offre__v">Du 20 août au 28 octobre 2026<br><strong>60 séances · 300 heures</strong></div></div>
+        <div class="offre__l"><div class="offre__c">Rythme</div><div class="offre__v">Du lundi au samedi, 16 h – 21 h<br>dimanches exclus</div></div>
+        <div class="offre__l"><div class="offre__c">Où</div><div class="offre__v">En ligne (Zoom) et en présentiel<br>siège du cabinet, Kangala</div></div>
+        <div class="offre__l"><div class="offre__c">Format</div><div class="offre__v">Contenu orienté compétences métiers, renforcé et prêt à l’opérationnalisation. <strong>30 places strictes.</strong></div></div>
+        <div class="offre__prix">
+          <b>200 000</b><u>FCFA</u><s>au lieu de 300 000</s>
+          <span>Paiement unique au démarrage</span>
+        </div>
+        <a class="osc-btn osc-btn--or" href="06_Inscription/inscription.html?formule=cours_du_soir">M’inscrire au Cours du soir</a>
+      </article>
+
+    </div>
+
+    <div class="osc-carte osc-carte--rail osc-carte--rail-or" style="margin-top:var(--sp-6)">
+      <h3>Ce qui est demandé de votre côté</h3>
+      <p style="margin:var(--sp-3) 0 0; color:var(--encre-70)">
+        <strong>Un ordinateur portable personnel est obligatoire</strong> — c’est la seule condition
+        matérielle, et elle n’est pas négociable : on n’apprend pas neuf logiciels en regardant
+        l’écran du voisin. De notre côté : connexion Internet mise à disposition pendant les séances
+        et assistance technique tout au long du parcours.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LE CALENDRIER ======================= -->
+<section class="osc-section osc-section--sombre">
+  <div class="osc-large">
+    <div class="section__tete">
+      <p class="osc-surtitre">Calendrier</p>
+      <h2>Ce qui se passe, et quand</h2>
+      <p class="chapeau" style="color:#A9BDCE">
+        Deux rendez-vous ont lieu <strong>avant</strong> l’ouverture : personne n’entre en salle le
+        premier jour sans avoir reçu ses fichiers et installé ses logiciels.
+      </p>
+    </div>
+    <div class="frise">
+      <div class="frise__e">
+        <div class="frise__d">Mardi 18 août 2026</div>
+        <div class="frise__t"><strong style="color:#fff">Clôture des inscriptions</strong> et rencontre avec les personnes intéressées : présentation du programme, réponses aux questions, dernières places.</div>
+      </div>
+      <div class="frise__e">
+        <div class="frise__d">Mercredi 19 août 2026</div>
+        <div class="frise__t"><strong style="color:#fff">Rencontre avec les inscrits</strong> : débriefing, remise de la documentation et des fichiers de travail, installation des applications sur votre ordinateur.</div>
+      </div>
+      <div class="frise__e">
+        <div class="frise__d">Jeudi 20 août 2026</div>
+        <div class="frise__t"><strong style="color:#fff">Ouverture des deux formules</strong> — BootCamp le matin, Cours du soir en fin de journée.</div>
+      </div>
+      <div class="frise__e">
+        <div class="frise__d">Samedi 5 septembre 2026</div>
+        <div class="frise__t">Clôture du <strong style="color:#fff">BootCamp intensif</strong> : soutenances et remise des certificats.</div>
+      </div>
+      <div class="frise__e">
+        <div class="frise__d">Mercredi 28 octobre 2026</div>
+        <div class="frise__t">Clôture du <strong style="color:#fff">Cours du soir approfondi</strong> : soutenances et remise des certificats.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Questions fréquentes ======================= -->
+<section class="osc-section osc-section--clair">
+  <div class="osc-large" style="max-width:900px">
+    <div class="section__tete">
+      <p class="osc-surtitre">Objections</p>
+      <h2>Les questions qu’on nous pose avant de s’inscrire</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Je travaille : quelle formule choisir ?</summary>
+        <p>Le Cours du soir, sans hésiter : les séances vont de 16 h à 21 h, du lundi au samedi (dimanches exclus),
+          après la journée de travail. Le BootCamp, lui, occupe les journées entières du lundi au
+          samedi — il est pensé pour les étudiants et les doctorants. Et comme les deux formules
+          sont accessibles sur Zoom, une réunion imprévue ne vous fait pas perdre la séance.</p>
+      </details>
+      <details>
+        <summary>Puis-je suivre entièrement à distance ?</summary>
+        <p>Oui. Les deux formules se suivent <strong>en ligne sur Zoom</strong> comme en présentiel,
+          et vous pouvez alterner d’un jour à l’autre. Seule la sortie de collecte du module 5
+          suppose d’être à Bangui ; les participants à distance travaillent alors sur un jeu de
+          données de terrain fourni et sur la supervision à distance de la collecte.</p>
+      </details>
+      <details>
+        <summary>Je n’ai jamais fait de statistique. Est-ce que je vais suivre ?</summary>
+        <p>Oui. Le parcours part de la commande d’étude, pas de la théorie des probabilités.
+          Chaque notion est introduite au moment où elle sert, et l’encadrement rapproché permet
+          de ne laisser personne derrière. Le seul pré-requis réel est de savoir utiliser un
+          ordinateur et un tableur au niveau débutant.</p>
+      </details>
+      <details>
+        <summary>Faut-il vraiment un ordinateur personnel ?</summary>
+        <p>Oui, c’est <strong>obligatoire</strong> et c’est la seule condition matérielle. Vous
+          installez les neuf logiciels sur votre propre machine dès la séance du 19 août, avec
+          notre assistance : vous repartez donc avec un poste de travail complet, pas seulement
+          avec des souvenirs de manipulation. Internet est mis à disposition pendant les séances.</p>
+      </details>
+      <details>
+        <summary>Le certificat est-il reconnu ?</summary>
+        <p>C’est un certificat professionnel délivré par OUBANGUI STAT CONSULTING, pas un diplôme
+          d’État : nous le disons franchement. Ce qui pèse en entretien, c’est le dossier de travaux
+          que vous emportez — protocole, questionnaire, base apurée, rapport et soutenance — et
+          c’est précisément ce que la formation produit.</p>
+      </details>
+      <details>
+        <summary>Pourquoi les prix sont-ils réduits ?</summary>
+        <p>Parce qu’il s’agit de la session de lancement de la rentrée 2026 : 100 000 FCFA au lieu
+          de 250 000 pour le BootCamp, 200 000 au lieu de 300 000 pour le Cours du soir.
+          Le règlement se fait <strong>en une fois au démarrage</strong>. Les sessions suivantes
+          reprendront le tarif plein.</p>
+      </details>
+      <details>
+        <summary>Les logiciels payants, comment fait-on après la formation ?</summary>
+        <p>Cinq des neuf outils du parcours sont libres et gratuits — KoboToolbox, ODK, R, QGIS,
+          Google Forms — et couvrent à eux seuls toute la chaîne. Excel, SPSS, Stata et Power BI sont
+          enseignés parce que vos commanditaires les utilisent ; les équivalents libres et la façon
+          de passer de l’un à l’autre sont montrés en séance.</p>
+      </details>
+      <details>
+        <summary>Organisez-vous des sessions en intra-structure ?</summary>
+        <p>Oui, sur demande, à partir de huit participants : dans vos locaux à Bangui, en province,
+          ou entièrement à distance. Le programme est alors adapté à vos données et à vos enquêtes
+          en cours. Écrivez-nous en précisant votre structure et le nombre de personnes concernées.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ACTION ======================= -->
+<section class="osc-section final">
+  <div class="final__fond">
+    <img src="assets/img/promotion-1re-duo-16x9.jpg" alt="Lauréats de la première promotion tenant leur attestation, Bangui, janvier 2026">
+  </div>
+  <div class="osc-large final__int">
+    <p class="osc-surtitre" style="justify-content:center">Dernière étape</p>
+    <h2>Seconde édition. Les inscriptions ferment le 18 août.</h2>
+    <p class="chapeau" style="color:#A9BDCE; margin-inline:auto; text-align:center">
+      Trente personnes suivront le Cours du soir, et la rentrée est le 20 août. Réserver prend cinq
+      minutes : un message sur WhatsApp suffit à bloquer votre place.
+    </p>
+
+    <div style="margin: var(--sp-6) auto var(--sp-6)" data-compteur>
+      <div class="compteur__tete">
+        <span class="compteur__phrase"><strong>23</strong> places restantes sur 30</span>
+        <span class="compteur__pourcent">23&nbsp;% pourvues</span>
+      </div>
+      <div class="compteur__barre" aria-hidden="true"><span style="width:23%"></span></div>
+      <div class="compteur__pied"><span>Clôture le 18 août 2026</span><span>Pointage du 6 août 2026</span></div>
+    </div>
+
+    <div style="display:flex; gap:var(--sp-4); justify-content:center; flex-wrap:wrap">
+      <a class="osc-btn osc-btn--or" href="06_Inscription/inscription.html">Remplir le formulaire d’inscription</a>
+      <a class="osc-btn osc-btn--fantome" href="https://wa.me/23672728442">Écrire sur WhatsApp</a>
+    </div>
+    <p style="margin-top:var(--sp-5); font-size:.88rem; color:#8FA9BE">
+      Téléphone · WhatsApp · Telegram <strong style="color:#fff">00 236 72 72 84 42</strong>
+    </p>
+  </div>
+</section>
+
+<footer class="pied">
+  <div class="osc-large">
+    <div class="pied__grille">
+      <div>
+        <img src="assets/logos/logo-osc-blanc.svg" alt="Oubangui Stat Consulting">
+        <p>Cabinet d’études statistiques et de conseil.<br>
+          « Faciliter la prise de décision par les données. »</p>
+      </div>
+      <div>
+        <h4>La formation</h4>
+        <p>Seconde édition — rentrée du 20 août 2026<br>
+          BootCamp : 20 août – 5 septembre<br>
+          Cours du soir : 20 août – 28 octobre<br>
+          Clôture des inscriptions : 18 août 2026</p>
+      </div>
+      <div>
+        <h4>Nous joindre</h4>
+        <p>Téléphone · WhatsApp · Telegram<br>
+          <a href="https://wa.me/23672728442">00 236 72 72 84 42</a><br>
+          <a href="mailto:oubanguistatc@gmail.com">oubanguistatc@gmail.com</a><br>
+          <a href="https://www.oubanguistatc.io">www.oubanguistatc.io</a></p>
+      </div>
+      <div>
+        <h4>Nous trouver</h4>
+        <p>Kangala, Avenue B. Boganda<br>
+          3ᵉ arrondissement<br>
+          Bangui, République centrafricaine</p>
+      </div>
+    </div>
+
+    <div class="pied__mentions">
+      <p>Photographies : ateliers de formation conduits par le cabinet, Bangui, mai 2026.
+        Les personnes photographiées ont participé à ces sessions.</p>
+      <p>Les marques et noms de logiciels cités appartiennent à leurs propriétaires respectifs ;
+        leur mention désigne les outils enseignés et n’implique aucun partenariat ni affiliation.
+        Les données de contexte national proviennent du Plan national de développement de la
+        République centrafricaine 2024-2028 (MEPCI) et des publications de l’ICASEES ; elles sont
+        citées avec leur source.</p>
+      <p>© 2026 OUBANGUI STAT CONSULTING. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/places.js"></script>
+<script src="assets/js/compteur.js"></script>
+</body>
+</html>
