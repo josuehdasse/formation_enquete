@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inscription — Conduire une enquête statistique de A à Z · 2ᵉ édition</title>
+<link rel="stylesheet" href="../assets/css/osc.css">
+<!-- Le compteur est chargé dans <head> et non en fin de corps : il doit être
+     prêt AVANT la première peinture, sinon le visiteur voit le nombre de
+     secours puis le voit changer sous ses yeux — ce qui décrédibilise
+     exactement ce que le compteur est censé rendre crédible. -->
+<script src="../assets/js/places.js"></script>
+<style>
+/* ==========================================================================
+   FORMULAIRE D'INSCRIPTION avec compteur de places
+
+   POURQUOI UN FORMULAIRE SANS SERVEUR. Le cabinet n'a pas d'API
+   d'inscription aujourd'hui, et le canal réel de conversion à Bangui est
+   WhatsApp. Ce formulaire ne « poste » donc rien : il COMPOSE une demande
+   d'inscription propre et complète, puis l'ouvre dans WhatsApp — ou la
+   copie, ou l'envoie par courriel. Le candidat n'a rien à retaper et le
+   cabinet reçoit toujours les mêmes champs, dans le même ordre, ce qui rend
+   le dépouillement possible.
+
+   Quand une véritable API existera : remplacer `envoyer()` par un appel
+   `fetch()`, sans toucher au balisage ni à la validation.
+
+   RÈGLE DE CONCEPTION : aucun champ n'est demandé s'il ne sert pas à
+   décider ou à préparer la session. Chaque question ajoutée coûte des
+   inscriptions ; celles qui restent sont donc toutes justifiées en
+   commentaire.
+   ========================================================================== */
+
+body { background: var(--fond); }
+
+.entete { background: var(--marine-900); color: #C9D8E4; }
+.entete__int {
+  max-width: 900px; margin-inline: auto; padding: var(--sp-6) var(--sp-5);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-5); flex-wrap: wrap;
+}
+.entete img { height: 46px; }
+.entete__retour { color: #8FD3F0; font-size: .88rem; text-decoration: none; }
+
+.tete { background: var(--marine-800); color: #C9D8E4; padding-block: var(--sp-7); }
+.tete__int { max-width: 900px; margin-inline: auto; padding-inline: var(--sp-5); }
+.tete h1 { color: var(--blanc); font-size: clamp(1.9rem, 4.4vw, 2.8rem); margin-bottom: var(--sp-3); }
+.tete p { max-width: 60ch; }
+
+/* --- Compteur (styles jumeaux de ceux de la page de vente) ------------------ */
+.compteur {
+  background: rgba(255,255,255,.07);
+  border-radius: var(--r-2); padding: var(--sp-4) var(--sp-5);
+  box-shadow: var(--biseau-sombre); max-width: 520px; margin-top: var(--sp-5);
+}
+.compteur__tete { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.compteur__phrase { color: var(--blanc); font-size: 1.02rem; }
+.compteur__phrase strong { font-family: var(--titre); font-size: 1.5rem; color: var(--or); }
+.compteur__pourcent { font-size: .82rem; color: #94AEC4; white-space: nowrap; }
+.compteur__barre { height: 9px; border-radius: 999px; background: rgba(255,255,255,.14); overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+.compteur__barre span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--bleu-signal), #6FD3F5); box-shadow: 0 0 12px rgba(0,158,219,.7); }
+.compteur--alerte .compteur__barre span { background: linear-gradient(90deg, var(--or-fonce), var(--or)); box-shadow: 0 0 12px rgba(244,185,66,.7); }
+.compteur__pied { display: flex; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-3); font-size: .78rem; color: #94AEC4; flex-wrap: wrap; }
+.compteur__pied strong { color: var(--or); }
+
+/* --- Corps du formulaire ---------------------------------------------------- */
+.forme { max-width: 900px; margin: calc(var(--sp-7) * -1) auto var(--sp-9); padding-inline: var(--sp-5); position: relative; z-index: 2; }
+.bloc {
+  background: var(--blanc); border-radius: var(--r-3); padding: var(--sp-6);
+  box-shadow: var(--ombre-3), var(--biseau); margin-bottom: var(--sp-5);
+}
+.bloc__tete { display: flex; align-items: center; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+.bloc__n {
+  width: 38px; height: 38px; border-radius: 50%; flex: none;
+  background: var(--bleu-action); color: var(--blanc);
+  display: grid; place-items: center; font-family: var(--titre); font-size: 1.1rem;
+  box-shadow: 0 4px 12px -3px rgba(0,104,157,.7), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.bloc h2 { margin: 0; font-size: 1.35rem; }
+
+.champs { display: grid; gap: var(--sp-5); }
+.champs--2 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+
+label { display: block; font-weight: 600; color: var(--marine-800); margin-bottom: var(--sp-2); font-size: .95rem; }
+label .obl { color: var(--laterite); }
+.aide { font-size: .8rem; color: var(--encre-70); font-weight: 400; margin-top: 2px; }
+
+/* Les champs sont sans bordure, comme les cartes : un liseré interne et une
+   ombre douce suffisent à dire « on écrit ici ». Le focus, lui, dessine un
+   vrai anneau — c'est une exigence d'accessibilité, pas un choix de style. */
+input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+  width: 100%; font: inherit; font-size: .98rem; color: var(--encre);
+  background: var(--bleu-050);
+  border: 0; border-radius: var(--r-1); padding: 12px 14px;
+  box-shadow: inset 0 1px 2px rgba(11,37,69,.10), inset 0 0 0 1px rgba(11,37,69,.06);
+  transition: box-shadow .16s ease, background .16s ease;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; background: var(--blanc);
+  box-shadow: 0 0 0 3px rgba(0,158,219,.35), inset 0 0 0 1.5px var(--bleu-action);
+}
+textarea { min-height: 96px; resize: vertical; }
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 6l5 5 5-5' fill='none' stroke='%2300689D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 38px; }
+
+/* Message d'erreur : rouge latérite, sous le champ, annoncé aux lecteurs
+   d'écran par aria-live. Un champ invalide sans message dit au candidat
+   qu'il a tort sans lui dire pourquoi — c'est le meilleur moyen de le
+   faire abandonner. */
+.erreur { color: var(--laterite); font-size: .84rem; margin-top: var(--sp-2); display: none; }
+.champ--invalide input, .champ--invalide select, .champ--invalide textarea {
+  box-shadow: 0 0 0 3px rgba(180,71,46,.22), inset 0 0 0 1.5px var(--laterite);
+}
+.champ--invalide .erreur { display: block; }
+
+/* --- Choix de formule (radios en cartes) -------------------------------------
+   Le choix de la formule est LA décision du formulaire : il mérite deux
+   cartes cliquables, pas une liste déroulante perdue au milieu. */
+.formules { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-4); }
+.formule { position: relative; }
+.formule input { position: absolute; opacity: 0; pointer-events: none; }
+.formule__c {
+  display: block; cursor: pointer; height: 100%;
+  background: var(--bleu-050); border-radius: var(--r-2); padding: var(--sp-5);
+  box-shadow: var(--biseau); transition: box-shadow .18s ease, background .18s ease, transform .18s ease;
+}
+.formule__c:hover { transform: translateY(-2px); box-shadow: var(--ombre-2), var(--biseau); }
+/* L'état sélectionné se voit à l'anneau ET au fond : la couleur seule ne
+   suffit pas pour un daltonien. */
+.formule input:checked + .formule__c {
+  background: var(--blanc);
+  box-shadow: 0 0 0 2.5px var(--bleu-action), var(--ombre-2);
+}
+.formule input:focus-visible + .formule__c { box-shadow: 0 0 0 3px rgba(0,158,219,.45), var(--ombre-2); }
+.formule__t { font-family: var(--titre); font-size: 1.16rem; color: var(--marine-800); margin: 0 0 2px; }
+.formule__p { font-size: .78rem; letter-spacing: .09em; text-transform: uppercase; color: var(--bleu-action); font-family: var(--titre); margin: 0 0 var(--sp-3); }
+.formule__d { font-size: .87rem; color: var(--encre-70); line-height: 1.45; margin: 0 0 var(--sp-3); }
+.formule__x { display: flex; align-items: baseline; gap: var(--sp-2); }
+.formule__x b { font-family: var(--titre); font-size: 1.7rem; color: var(--marine-800); font-variant-numeric: tabular-nums; }
+.formule__x s { font-size: .84rem; color: var(--encre-40); }
+
+/* --- Cases à cocher ------------------------------------------------------------ */
+.case { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; font-size: .93rem; line-height: 1.45; }
+.case input { width: 22px; height: 22px; accent-color: var(--bleu-action); margin: 1px 0 0; }
+.case label { font-weight: 400; color: var(--encre); margin: 0; }
+/* PIÈGE RENCONTRÉ, à ne pas réintroduire : posée dans le récapitulatif, qui
+   est une carte marine, l'étiquette héritait de --encre (bleu très foncé) et
+   devenait INVISIBLE — la case à cocher flottait seule avec son astérisque.
+   Tout composant réutilisé sur fond sombre doit rétablir sa couleur. */
+.recap .case label { color: #C9D8E4; }
+.recap .case label .obl { color: var(--or); }
+
+/* --- Récapitulatif et envoi ------------------------------------------------------ */
+.recap {
+  background: linear-gradient(160deg, var(--marine-700), var(--marine-900));
+  color: #C9D8E4; border-radius: var(--r-3); padding: var(--sp-6);
+  box-shadow: var(--ombre-3), var(--biseau-sombre);
+}
+.recap h2 { color: var(--blanc); }
+.recap strong { color: var(--or); }
+.recap__texte {
+  background: rgba(0,0,0,.28); border-radius: var(--r-2); padding: var(--sp-4);
+  font-family: var(--mono); font-size: .82rem; line-height: 1.55; color: #D6E4EF;
+  white-space: pre-wrap; margin: var(--sp-4) 0; max-height: 260px; overflow: auto;
+}
+.actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+/* --- Bandeau « session complète » -------------------------------------------------
+   Rendu par le script quand il ne reste aucune place. On ne masque pas le
+   formulaire : on bascule son intitulé en « liste d'attente ». Un candidat
+   éconduit sans alternative ne revient pas à la session suivante. */
+.complet {
+  background: var(--or); color: #3B2600; border-radius: var(--r-2);
+  padding: var(--sp-4) var(--sp-5); margin-bottom: var(--sp-5);
+  box-shadow: var(--biseau); display: none;
+}
+.complet--visible { display: block; }
+
+.pied { background: #050F1D; color: #6E8598; padding-block: var(--sp-6); font-size: .84rem; }
+.pied a { color: #8FD3F0; }
+.pied__int { max-width: 900px; margin-inline: auto; padding-inline: var(--sp-5); }
+</style>
+</head>
+<body>
+
+<div class="osc-filet"><span></span><span></span><span></span><span></span><span></span></div>
+
+<header class="entete">
+  <div class="entete__int">
+    <img src="../assets/logos/logo-osc-blanc.svg" alt="Oubangui Stat Consulting">
+    <a class="entete__retour" href="../02_Page_de_vente/index.html">← Revenir à la présentation</a>
+  </div>
+</header>
+
+<section class="tete">
+  <div class="tete__int">
+    <p class="osc-surtitre" style="color:#7FD0F2">Seconde édition · Rentrée du 20 août 2026</p>
+    <h1>Réserver ma place</h1>
+    <p>Cinq minutes suffisent. À la fin, votre demande part sur WhatsApp — vous n’avez rien à
+      retaper. Nous répondons sous 24 heures avec les coordonnées de règlement.</p>
+
+    <div data-compteur>
+      <!-- Secours sans JavaScript : mêmes chiffres que assets/js/places.js -->
+      <div class="compteur__tete">
+        <span class="compteur__phrase"><strong>23</strong> places restantes sur 30</span>
+        <span class="compteur__pourcent">23&nbsp;% pourvues</span>
+      </div>
+      <div class="compteur__barre" aria-hidden="true"><span style="width:23%"></span></div>
+      <div class="compteur__pied"><span>Clôture le 18 août 2026</span><span>Pointage du 6 août 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="forme">
+
+  <div class="complet" id="bandeau_complet">
+    <strong>Le Cours du soir est complet.</strong> Vous pouvez encore vous inscrire sur la liste
+    d’attente — une place se libère souvent dans les jours qui précèdent l’ouverture — ou choisir
+    le BootCamp intensif, qui dispose encore de places.
+  </div>
+
+  <!-- novalidate : la validation native de HTML affiche des bulles en anglais
+       selon la langue du navigateur et s'arrête au premier champ. On valide
+       donc nous-mêmes, en français, et on signale TOUS les manques d'un coup. -->
+  <form id="formulaire" novalidate>
+
+    <!-- ================================================= 1. La formule -->
+    <section class="bloc">
+      <div class="bloc__tete">
+        <div class="bloc__n">1</div>
+        <h2>Quelle formule ?</h2>
+      </div>
+
+      <div class="formules" id="champ_formule">
+        <div class="formule">
+          <input type="radio" name="formule" id="f_bootcamp" value="BootCamp intensif">
+          <label class="formule__c" for="f_bootcamp">
+            <p class="formule__p">Étudiants et doctorants</p>
+            <p class="formule__t">BootCamp intensif</p>
+            <p class="formule__d">20 août – 5 septembre 2026 · 15 journées, 105 heures.<br>
+              Lundi au samedi, 09 h – 17 h. Université de Bangui ou Zoom.</p>
+            <p class="formule__x"><b>100 000 FCFA</b> <s>au lieu de 250 000</s></p>
+          </label>
+        </div>
+        <div class="formule">
+          <input type="radio" name="formule" id="f_soir" value="Cours du soir approfondi">
+          <label class="formule__c" for="f_soir">
+            <p class="formule__p">Professionnels et institutions</p>
+            <p class="formule__t">Cours du soir approfondi</p>
+            <p class="formule__d">20 août – 28 octobre 2026 · 60 séances, 300 heures.<br>
+              Lundi au samedi, 16 h – 21 h. Siège du cabinet ou Zoom.</p>
+            <p class="formule__x"><b>200 000 FCFA</b> <s>au lieu de 300 000</s></p>
+          </label>
+        </div>
+      </div>
+      <p class="erreur" id="err_formule">Choisissez la formule que vous souhaitez suivre.</p>
+
+      <div class="champs champs--2" style="margin-top:var(--sp-5)">
+        <div class="champ" id="champ_mode">
+          <label for="mode">Comment comptez-vous suivre ? <span class="obl">*</span></label>
+          <select id="mode" name="mode">
+            <option value="">— Choisir —</option>
+            <option>En présentiel</option>
+            <option>En ligne (Zoom)</option>
+            <option>Les deux, selon les jours</option>
+          </select>
+          <p class="erreur">Indiquez-nous votre mode de participation.</p>
+        </div>
+        <div class="champ">
+          <label for="ordinateur">Disposez-vous d’un ordinateur portable ? <span class="obl">*</span>
+            <span class="aide">C’est la seule condition matérielle obligatoire.</span></label>
+          <select id="ordinateur" name="ordinateur">
+            <option value="">— Choisir —</option>
+            <option>Oui</option>
+            <option>Non, j’ai besoin d’une solution</option>
+          </select>
+          <p class="erreur">Cette réponse conditionne votre participation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================= 2. Le candidat -->
+    <section class="bloc">
+      <div class="bloc__tete">
+        <div class="bloc__n">2</div>
+        <h2>Qui êtes-vous ?</h2>
+      </div>
+
+      <div class="champs">
+        <div class="champs champs--2">
+          <div class="champ">
+            <label for="nom">Nom et prénoms <span class="obl">*</span></label>
+            <input type="text" id="nom" name="nom" autocomplete="name">
+            <p class="erreur">Indiquez votre nom et vos prénoms.</p>
+          </div>
+          <div class="champ">
+            <label for="tel">Téléphone (WhatsApp) <span class="obl">*</span>
+              <span class="aide">C’est par là que nous vous répondrons.</span></label>
+            <input type="tel" id="tel" name="tel" placeholder="+236 ..." autocomplete="tel">
+            <p class="erreur">Indiquez un numéro de téléphone joignable.</p>
+          </div>
+        </div>
+
+        <div class="champs champs--2">
+          <div class="champ">
+            <label for="email">Adresse électronique
+              <span class="aide">Facultative — utile pour l’envoi des supports.</span></label>
+            <input type="email" id="email" name="email" autocomplete="email">
+            <p class="erreur">Cette adresse ne semble pas valide.</p>
+          </div>
+          <div class="champ">
+            <label for="profil">Votre profil <span class="obl">*</span></label>
+            <select id="profil" name="profil">
+              <option value="">— Choisir —</option>
+              <option>Étudiant en licence</option>
+              <option>Étudiant en master</option>
+              <option>Doctorant</option>
+              <option>Enseignant-chercheur</option>
+              <option>Cadre d’une administration publique</option>
+              <option>Personnel d’ONG ou de projet</option>
+              <option>Consultant indépendant</option>
+              <option>Salarié du secteur privé</option>
+              <option>Autre</option>
+            </select>
+            <p class="erreur">Choisissez le profil qui vous correspond le mieux.</p>
+          </div>
+        </div>
+
+        <div class="champ">
+          <label for="structure">Établissement ou structure
+            <span class="aide">Université, ministère, ONG, entreprise — pour la facture s’il en faut une.</span></label>
+          <input type="text" id="structure" name="structure">
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================= 3. Le projet -->
+    <section class="bloc">
+      <div class="bloc__tete">
+        <div class="bloc__n">3</div>
+        <h2>Votre projet</h2>
+      </div>
+
+      <div class="champs">
+        <div class="champ">
+          <label for="sujet">Avez-vous un sujet ou une enquête en cours ?
+            <span class="aide">Mémoire, thèse, évaluation à conduire, enquête interne à lancer.
+              Les participants qui arrivent avec un sujet travaillent dessus pendant tout le
+              parcours — le sujet est examiné lors de la rencontre du 19 août.</span></label>
+          <textarea id="sujet" name="sujet" placeholder="En une ou deux phrases…"></textarea>
+        </div>
+        <div class="champ">
+          <label for="niveau">Votre niveau actuel en analyse de données <span class="obl">*</span>
+            <span class="aide">Répondez franchement : cela nous sert à composer les binômes, pas à trier.</span></label>
+          <select id="niveau" name="niveau">
+            <option value="">— Choisir —</option>
+            <option>Débutant complet</option>
+            <option>J’utilise un tableur</option>
+            <option>J’ai déjà utilisé un logiciel statistique</option>
+            <option>J’ai déjà participé à une enquête</option>
+            <option>J’ai déjà conduit une enquête</option>
+          </select>
+          <p class="erreur">Indiquez votre niveau de départ.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================= 4. Envoi -->
+    <section class="recap">
+      <h2>Vérifiez et envoyez</h2>
+      <p style="font-size:.93rem">Voici le message qui partira. Vous pouvez le relire avant de
+        l’envoyer — rien n’est transmis tant que vous n’avez pas cliqué.</p>
+
+      <div class="recap__texte" id="apercu" aria-live="polite">Complétez le formulaire ci-dessus pour voir votre demande.</div>
+
+      <div class="case" style="margin-bottom:var(--sp-5)">
+        <input type="checkbox" id="accord">
+        <label for="accord">J’accepte que OUBANGUI STAT CONSULTING me recontacte au sujet de cette
+          inscription. Mes coordonnées ne servent qu’à cela et ne sont transmises à personne.
+          <span class="obl">*</span></label>
+      </div>
+      <p class="erreur" id="err_accord" style="margin-top:calc(var(--sp-4) * -1); margin-bottom:var(--sp-4)">
+        Nous avons besoin de votre accord pour vous répondre.</p>
+
+      <div class="actions">
+        <button type="submit" class="osc-btn osc-btn--or">Envoyer sur WhatsApp</button>
+        <button type="button" class="osc-btn osc-btn--fantome" id="btn_copier"
+                style="box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45)">Copier le message</button>
+        <a class="osc-btn osc-btn--fantome" id="btn_mail" href="#"
+           style="box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45)">Envoyer par courriel</a>
+      </div>
+
+      <p style="font-size:.82rem; color:#8FA9BE; margin:var(--sp-5) 0 0">
+        Le règlement se fait <strong>en une seule fois au démarrage</strong>. Une place n’est
+        décomptée du compteur qu’une fois le règlement reçu : le nombre affiché est un nombre réel.
+      </p>
+    </section>
+
+  </form>
+</main>
+
+<footer class="pied">
+  <div class="pied__int">
+    <p><strong style="color:#B7C8D6">OUBANGUI STAT CONSULTING</strong> — cabinet d’études statistiques et de conseil.<br>
+      Kangala, Avenue B. Boganda, 3<sup>e</sup> arrondissement, Bangui, République centrafricaine.</p>
+    <p>Téléphone · WhatsApp · Telegram <a href="https://wa.me/23672728442">00 236 72 72 84 42</a> —
+      <a href="mailto:oubanguistatc@gmail.com">oubanguistatc@gmail.com</a> —
+      <a href="https://www.oubanguistatc.io">www.oubanguistatc.io</a></p>
+  </div>
+</footer>
+
+<script src="../assets/js/compteur.js"></script>
+<script>
+/* ==========================================================================
+   Logique du formulaire.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var form = document.getElementById("formulaire");
+  var apercu = document.getElementById("apercu");
+  var WHATSAPP = "23672728442";
+  var COURRIEL = "oubanguistatc@gmail.com";
+
+  /* Les champs obligatoires et le message à afficher quand ils manquent.
+     Une table plutôt qu'une cascade de `if` : ajouter un champ demande une
+     ligne, et la validation ne peut pas diverger de l'affichage. */
+  var OBLIGATOIRES = ["mode", "ordinateur", "nom", "tel", "profil", "niveau"];
+
+  function val(id) {
+    var e = document.getElementById(id);
+    return e ? e.value.trim() : "";
+  }
+
+  function formuleChoisie() {
+    var r = form.querySelector('input[name="formule"]:checked');
+    return r ? r.value : "";
+  }
+
+  /* Marque ou démarque un champ. On remonte au `.champ` parent parce que
+     c'est lui qui porte le style d'erreur ET le message : le champ et son
+     explication ne doivent jamais pouvoir s'afficher séparément. */
+  function marquer(id, invalide) {
+    var e = document.getElementById(id);
+    if (!e) { return; }
+    var bloc = e.closest(".champ");
+    if (bloc) { bloc.classList.toggle("champ--invalide", invalide); }
+  }
+
+  /* Validation de l'adresse électronique — volontairement PERMISSIVE.
+     Le champ est facultatif ; le rôle du contrôle est d'attraper la faute
+     de frappe évidente, pas de refuser un domaine exotique. Classes POSIX
+     inutiles ici, mais on évite `\S` qui a déjà piégé ce projet ailleurs. */
+  function courrielValide(v) {
+    return v === "" || /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v);
+  }
+
+  /* Compose le message. C'est le cœur du formulaire : il doit produire un
+     texte lisible tel quel dans WhatsApp, avec les champs TOUJOURS dans le
+     même ordre — c'est ce qui rend le dépouillement possible côté cabinet. */
+  function message() {
+    var complet = window.OSC_COMPTEUR && window.OSC_COMPTEUR.complet;
+    var lignes = [
+      complet ? "DEMANDE D'INSCRIPTION — LISTE D'ATTENTE"
+              : "DEMANDE D'INSCRIPTION",
+      "Formation : Conduire une enquete statistique de A a Z (2e edition)",
+      "",
+      "Formule ......... " + (formuleChoisie() || "—"),
+      "Participation ... " + (val("mode") || "—"),
+      "Ordinateur ...... " + (val("ordinateur") || "—"),
+      "",
+      "Nom ............. " + (val("nom") || "—"),
+      "Telephone ....... " + (val("tel") || "—"),
+      "Courriel ........ " + (val("email") || "—"),
+      "Profil .......... " + (val("profil") || "—"),
+      "Structure ....... " + (val("structure") || "—"),
+      "",
+      "Niveau .......... " + (val("niveau") || "—"),
+      "Sujet ........... " + (val("sujet") || "—")
+    ];
+    return lignes.join("\n");
+  }
+
+  function rafraichir() {
+    apercu.textContent = message();
+    /* Le lien « courriel » se reconstruit à chaque frappe : un mailto:
+       figé au chargement enverrait un message vide. */
+    document.getElementById("btn_mail").href =
+      "mailto:" + COURRIEL +
+      "?subject=" + encodeURIComponent("Inscription — Conduire une enquete de A a Z") +
+      "&body=" + encodeURIComponent(message());
+  }
+
+  function valider() {
+    var ok = true;
+
+    if (!formuleChoisie()) {
+      document.getElementById("err_formule").style.display = "block";
+      ok = false;
+    } else {
+      document.getElementById("err_formule").style.display = "none";
+    }
+
+    OBLIGATOIRES.forEach(function (id) {
+      var manque = val(id) === "";
+      marquer(id, manque);
+      if (manque) { ok = false; }
+    });
+
+    var mauvaisCourriel = !courrielValide(val("email"));
+    marquer("email", mauvaisCourriel);
+    if (mauvaisCourriel) { ok = false; }
+
+    var accord = document.getElementById("accord").checked;
+    document.getElementById("err_accord").style.display = accord ? "none" : "block";
+    if (!accord) { ok = false; }
+
+    return ok;
+  }
+
+  form.addEventListener("input", rafraichir);
+  form.addEventListener("change", rafraichir);
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!valider()) {
+      /* On ramène l'œil sur le PREMIER problème seulement : faire défiler
+         vers le dernier champ invalide donnerait l'impression que le reste
+         est bon. */
+      var premier = form.querySelector(".champ--invalide, .erreur[style*='block']");
+      if (premier) { premier.scrollIntoView({ behavior: "smooth", block: "center" }); }
+      return;
+    }
+    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(message()), "_blank");
+  });
+
+  document.getElementById("btn_copier").addEventListener("click", function () {
+    var bouton = this;
+    /* navigator.clipboard n'existe pas hors contexte sécurisé — donc pas
+       en file:// sur certains navigateurs. On prévoit le repli, sinon le
+       bouton ne fait rien du tout quand la page est ouverte depuis une clé. */
+    var texte = message();
+    function confirmer() {
+      var avant = bouton.textContent;
+      bouton.textContent = "Message copié";
+      setTimeout(function () { bouton.textContent = avant; }, 2200);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(texte).then(confirmer);
+    } else {
+      var zone = document.createElement("textarea");
+      zone.value = texte;
+      zone.style.position = "fixed";
+      zone.style.opacity = "0";
+      document.body.appendChild(zone);
+      zone.select();
+      try { document.execCommand("copy"); confirmer(); } catch (err) { /* rien à faire */ }
+      document.body.removeChild(zone);
+    }
+  });
+
+  /* Pré-sélection de la formule depuis l'adresse : les boutons de la page de
+     vente pointent vers ?formule=bootcamp ou ?formule=cours_du_soir. Le
+     candidat qui a déjà choisi ne doit pas rechoisir. */
+  var params = new URLSearchParams(window.location.search);
+  var voulue = params.get("formule");
+  if (voulue === "bootcamp") { document.getElementById("f_bootcamp").checked = true; }
+  if (voulue === "cours_du_soir") { document.getElementById("f_soir").checked = true; }
+
+  /* Bascule en mode liste d'attente si le Cours du soir est complet. */
+  if (window.OSC_COMPTEUR && window.OSC_COMPTEUR.complet) {
+    document.getElementById("bandeau_complet").classList.add("complet--visible");
+  }
+
+  rafraichir();
+})();
+</script>
+</body>
+</html>

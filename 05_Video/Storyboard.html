@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Storyboard — Vidéo promotionnelle 75 s · 2ᵉ édition</title>
+<link rel="stylesheet" href="../assets/css/osc.css">
+<style>
+/* ==========================================================================
+   STORYBOARD — A4 paysage, 2 pages, 11 plans
+
+   POURQUOI UN STORYBOARD SÉPARÉ DU SCRIPT. Le script (Script_video.md) est
+   lu par la personne qui écrit et qui enregistre ; le storyboard est lu par
+   celle qui MONTE, et elle a besoin de voir l'image, pas de la lire. Les
+   deux documents portent les mêmes minutages : si l'un change, l'autre doit
+   suivre.
+
+   Les vignettes emploient les VRAIES photographies étalonnées du kit, pas
+   des croquis : le monteur voit exactement le plan dont il dispose, et
+   personne ne découvre au montage qu'une image promise n'existe pas.
+   ========================================================================== */
+
+@page { size: A4 landscape; margin: 0; }
+body { background: #C9D3DC; margin: 0; }
+
+.page {
+  width: 297mm; height: 210mm;
+  margin: 0 auto 6mm;
+  background: var(--blanc);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: var(--ombre-4);
+  break-after: page;
+}
+.page:last-child { break-after: auto; }
+@media print { .page { box-shadow: none; margin: 0; } body { background: var(--blanc); } }
+
+.tete {
+  flex: none; background: var(--marine-900); color: var(--blanc);
+  padding: 6mm 12mm 5mm;
+  display: flex; align-items: center; justify-content: space-between; gap: 8mm;
+}
+.tete img { height: 11mm; }
+.tete__t { text-align: right; }
+.tete__t b { font-family: var(--titre); font-size: 5mm; display: block; }
+.tete__t span { font-size: 3mm; letter-spacing: .16em; text-transform: uppercase; color: #8FD3F0; }
+
+.corps { flex: 1; padding: 7mm 12mm; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; align-content: start; }
+
+/* --- Une vignette de plan ------------------------------------------------- */
+.plan {
+  background: var(--blanc); border-radius: 3mm; overflow: hidden;
+  box-shadow: var(--ombre-2), var(--biseau);
+  display: flex; flex-direction: column;
+}
+/* Le cadre est en 16/9 strict : c'est le format de livraison principal, et
+   un storyboard dessiné dans un autre rapport ment sur ce qui tiendra dans
+   le cadre. */
+.plan__img { position: relative; aspect-ratio: 16/9; overflow: hidden; background: var(--marine-800); }
+.plan__img img { width: 100%; height: 100%; object-fit: cover; }
+.plan__num {
+  position: absolute; top: 0; left: 0; z-index: 3;
+  background: var(--or); color: #3B2600;
+  font-family: var(--titre); font-size: 3.6mm;
+  padding: 1.2mm 3mm; border-radius: 0 0 2.5mm 0;
+}
+.plan__tc {
+  position: absolute; top: 1.5mm; right: 1.5mm; z-index: 3;
+  background: rgba(7,26,47,.85); color: #8FD3F0;
+  font-family: var(--mono); font-size: 2.6mm;
+  padding: .8mm 2mm; border-radius: 1.5mm;
+  font-variant-numeric: tabular-nums;
+}
+/* Le texte incrusté est simulé DANS la vignette, à sa vraie place : c'est
+   la seule façon de voir tout de suite qu'un carton déborde ou couvre un
+   visage. */
+.plan__inc {
+  position: absolute; inset: auto 0 0 0; z-index: 2;
+  padding: 3mm 3.5mm;
+  background: linear-gradient(to top, rgba(7,26,47,.94), rgba(7,26,47,0));
+  color: var(--blanc); font-family: var(--titre); font-size: 3.4mm; line-height: 1.2;
+}
+.plan__inc em { font-style: normal; color: var(--or); }
+
+/* Plan « carton » : pas de photographie, un aplat marine tramé. */
+.plan__img--carton { background: var(--marine-800); display: grid; place-items: center; }
+.plan__carton {
+  text-align: center; color: var(--blanc); padding: 4mm;
+  font-family: var(--titre); font-size: 5.4mm; line-height: 1.15;
+}
+.plan__carton em { font-style: normal; color: var(--or); }
+.plan__carton small { display: block; font-family: var(--texte); font-size: 2.8mm; color: #A9BDCE; margin-top: 2mm; line-height: 1.4; }
+
+.plan__bas { padding: 3mm 3.5mm 3.5mm; }
+.plan__vo { font-size: 3mm; line-height: 1.35; color: var(--encre); margin: 0; }
+.plan__vo b { color: var(--bleu-action); font-family: var(--titre); font-size: 2.6mm; letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 1mm; }
+.plan__note { font-size: 2.6mm; line-height: 1.3; color: var(--encre-40); margin: 2mm 0 0; }
+
+.pied {
+  flex: none; padding: 3.5mm 12mm 4.5mm;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 2.8mm; color: var(--encre-40);
+  box-shadow: inset 0 .3mm 0 rgba(11,37,69,.12);
+}
+.pied b { color: var(--bleu-action); }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ PAGE 1 -->
+<section class="page">
+  <div class="osc-filet"><span></span><span></span><span></span><span></span><span></span></div>
+  <header class="tete">
+    <img src="../assets/logos/logo-osc-blanc.svg" alt="Oubangui Stat Consulting">
+    <div class="tete__t">
+      <b>Storyboard — vidéo promotionnelle 75 s</b>
+      <span>2ᵉ édition · rentrée du 20 août 2026 · plans 1 à 6</span>
+    </div>
+  </header>
+
+  <div class="corps">
+
+    <article class="plan">
+      <div class="plan__img">
+        <img src="../assets/img/carte-ecran-16x9.jpg" alt="">
+        <span class="plan__num">01</span><span class="plan__tc">0:00 – 0:05</span>
+        <div class="plan__inc"><em>2003</em></div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>(silence) … Deux mille trois.</p>
+        <p class="plan__note">Zoom avant très lent sur l’écran. Cinq secondes sans voix : c’est ce silence qui arrête le défilement.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img">
+        <img src="../assets/img/projection-16x9.jpg" alt="">
+        <span class="plan__num">02</span><span class="plan__tc">0:05 – 0:12</span>
+        <div class="plan__inc">L’année du <em>dernier recensement achevé</em> en Centrafrique</div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>L’année du dernier recensement général achevé dans ce pays.</p>
+        <p class="plan__note">Plan sombre, volontairement. Coupe franche depuis le plan 1.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img">
+        <img src="../assets/img/bangui-16x9.jpg" alt="">
+        <span class="plan__num">03</span><span class="plan__tc">0:12 – 0:20</span>
+        <div class="plan__inc">Depuis : <em>7 040 milliards</em> de FCFA · <em>66 cibles</em> ODD</div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Depuis, un plan national de sept mille milliards. Soixante-six cibles de développement durable à mesurer.</p>
+        <p class="plan__note">Léger travelling latéral gauche → droite. Les chiffres apparaissent l’un après l’autre.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img plan__img--carton osc-trame osc-trame--sombre">
+        <span class="plan__num">04</span><span class="plan__tc">0:20 – 0:27</span>
+        <div class="plan__carton">Et <em>qui</em><br>pour faire parler<br>ces données ?
+          <small>Carton plein · trame de points animée</small></div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Et qui, pour faire parler tout cela ?</p>
+        <p class="plan__note">Pivot de la vidéo. <b>Fondu au blanc de 6 images</b> vers le plan 5 — seule transition non franche du film.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img">
+        <img src="../assets/img/salle-16x9.jpg" alt="">
+        <span class="plan__num">05</span><span class="plan__tc">0:27 – 0:35</span>
+        <div class="plan__inc"><em>Conduire une enquête de A à Z</em></div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Dix modules. De la problématique au rapport soutenu devant un décideur.</p>
+        <p class="plan__note">Zoom arrière lent qui révèle toute la promotion. La musique monte d’intensité ici.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img">
+        <img src="../assets/img/collecte-4x3.jpg" alt="">
+        <span class="plan__num">06</span><span class="plan__tc">0:35 – 0:43</span>
+        <div class="plan__inc">Une <em>vraie sortie de terrain</em></div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Vous ne regardez pas quelqu’un travailler. Vous conduisez votre propre étude.</p>
+        <p class="plan__note">Deux plans en coupe franche : <b>terrain-3x2</b> (4 s) puis <b>collecte-4x3</b> (4 s).</p>
+      </div>
+    </article>
+
+  </div>
+
+  <footer class="pied">
+    <div>OUBANGUI STAT CONSULTING · Storyboard vidéo · <b>durée totale 1 min 15 s</b></div>
+    <div>Page 1 / 2</div>
+  </footer>
+</section>
+
+<!-- ============================================================ PAGE 2 -->
+<section class="page">
+  <div class="osc-filet"><span></span><span></span><span></span><span></span><span></span></div>
+  <header class="tete">
+    <img src="../assets/logos/logo-osc-blanc.svg" alt="Oubangui Stat Consulting">
+    <div class="tete__t">
+      <b>Storyboard — vidéo promotionnelle 75 s</b>
+      <span>2ᵉ édition · rentrée du 20 août 2026 · plans 7 à 11</span>
+    </div>
+  </header>
+
+  <div class="corps">
+
+    <article class="plan">
+      <div class="plan__img plan__img--carton">
+        <span class="plan__num">07</span><span class="plan__tc">0:43 – 0:50</span>
+        <div style="display:flex; flex-wrap:wrap; gap:2mm; justify-content:center; padding:4mm">
+          <img src="../assets/logos/kobo.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/odk.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/googleforms.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/excel.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/spss.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/stata.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/r.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/qgis.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+          <img src="../assets/logos/powerbi.svg" style="width:11mm;height:11mm;border-radius:2.6mm" alt="">
+        </div>
+        <div class="plan__inc"><em>9 logiciels</em> installés sur votre machine</div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Neuf logiciels — Kobo, ODK, Excel, SPSS, Stata, R, QGIS. Installés sur votre ordinateur.</p>
+        <p class="plan__note">Apparition en cascade, 3 images d’écart entre chaque icône.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img">
+        <img src="../assets/img/restitution-3x2.jpg" alt="">
+        <span class="plan__num">08</span><span class="plan__tc">0:50 – 0:57</span>
+        <div class="plan__inc"><em>3 ingénieurs statisticiens</em>, dont un directeur à l’ICASEES</div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Trois ingénieurs statisticiens vous encadrent. L’un d’eux a dirigé l’enquête nationale sur les conditions de vie des ménages.</p>
+        <p class="plan__note">Plan le plus important pour la crédibilité : ne pas le raccourcir au montage.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img plan__img--carton osc-quadrillage">
+        <span class="plan__num">09</span><span class="plan__tc">0:57 – 1:05</span>
+        <div class="plan__carton" style="font-size:3.6mm; text-align:left; width:100%">
+          <div style="color:#8FD3F0; font-size:2.6mm; letter-spacing:.12em">BOOTCAMP · ÉTUDIANTS</div>
+          20 août → 5 sept · <em>100 000 F</em>
+          <div style="color:#8FD3F0; font-size:2.6mm; letter-spacing:.12em; margin-top:3mm">COURS DU SOIR · PROFESSIONNELS</div>
+          20 août → 28 oct · <em>200 000 F</em>
+        </div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Deux formules. Étudiants le jour, professionnels le soir. En présentiel ou sur Zoom.</p>
+        <p class="plan__note">Les deux blocs arrivent l’un après l’autre, 1,5 s d’écart. Prix barrés visibles.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img">
+        <img src="../assets/img/promotion-1re-16x9.jpg" alt="">
+        <span class="plan__num">10</span><span class="plan__tc">1:05 – 1:12</span>
+        <div class="plan__inc"><em>30 places</em> · clôture le <em>18 août</em></div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Trente places. Les inscriptions ferment le dix-huit août.</p>
+        <p class="plan__note">Zoom avant très lent sur les attestations. C’est LA preuve sociale du film :
+          des gens qui ont fini, pas un argument. Noms floutés à la source.</p>
+      </div>
+    </article>
+
+    <article class="plan">
+      <div class="plan__img plan__img--carton">
+        <span class="plan__num">11</span><span class="plan__tc">1:12 – 1:15</span>
+        <div style="display:flex; align-items:center; gap:4mm; padding:4mm">
+          <img src="../assets/qr/qr-whatsapp.svg" style="width:20mm;height:20mm;background:#fff;padding:1.5mm;border-radius:2mm" alt="">
+          <div class="plan__carton" style="font-size:4mm; text-align:left; padding:0">
+            <em>00 236 72 72 84 42</em>
+            <small style="margin-top:1mm">www.oubanguistatc.io</small>
+          </div>
+        </div>
+      </div>
+      <div class="plan__bas">
+        <p class="plan__vo"><b>Voix off</b>Écrivez-nous.</p>
+        <p class="plan__note">Le numéro reste à l’écran <b>3 s pleines</b>. Code QR à tester sur un vrai téléphone avant publication.</p>
+      </div>
+    </article>
+
+    <article class="plan" style="box-shadow:none; background:var(--bleu-050)">
+      <div class="plan__bas" style="padding:5mm">
+        <p class="plan__vo" style="font-size:3.2mm"><b>Rappels de montage</b>
+          Coupe franche partout, <b>sauf</b> un fondu au blanc entre les plans 4 et 5.<br><br>
+          La vidéo doit se comprendre <b>son coupé</b> : tout ce qui est dit est écrit.<br><br>
+          Filet de marque à cinq couleurs en bas de cadre, du début à la fin.<br><br>
+          Trois exports : 16/9 (75 s), carré (75 s), vertical (30 s — plans 1, 4, 5, 9, 10, 11).</p>
+      </div>
+    </article>
+
+  </div>
+
+  <footer class="pied">
+    <div>OUBANGUI STAT CONSULTING · <b>00 236 72 72 84 42</b> · oubanguistatc@gmail.com</div>
+    <div>Page 2 / 2</div>
+  </footer>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+{
+  "_lisez_moi": [
+    "SOURCE UNIQUE des informations opérationnelles de la campagne.",
+    "Toute valeur écrite ici apparaît telle quelle dans les huit livrables.",
+    "Données arrêtées d'après « Précisions.txt » et le Catalogue des formations 2026-2027 du cabinet.",
+    "Le compteur de places se tient à jour dans assets/js/places.js, pas ici."
+  ],
+
+  "organisme": {
+    "nom": "OUBANGUI STAT CONSULTING",
+    "sigle": "OSC",
+    "signature": "Cabinet d’études statistiques et de conseil",
+    "devise": "Faciliter la prise de décision par les données",
+    "domaine_pedagogique": "Pédagogie appliquée en science des données"
+  },
+
+  "contact": {
+    "_source": "Catalogue des formations 2026-2027, page « Contact & inscription ».",
+    "telephone_affichage": "00 236 72 72 84 42",
+    "telephone_lien": "+23672728442",
+    "whatsapp_lien": "23672728442",
+    "_note_whatsapp": "Le WhatsApp est le MÊME numéro que le téléphone du cabinet ; wa.me exige le format international sans « + » ni espace.",
+    "email": "oubanguistatc@gmail.com",
+    "site": "www.oubanguistatc.io",
+    "adresse": "Kangala, Avenue B. Boganda, 3ᵉ arrondissement, Bangui, République centrafricaine"
+  },
+
+  "formation": {
+    "titre": "Conduire une enquête statistique de A à Z",
+    "sous_titre": "Certificat professionnel en ingénierie des enquêtes et analyse de données",
+    "edition": "Seconde édition",
+    "_note_edition": "À mentionner sur TOUS les supports : une formation qui se rejoue a déjà fait ses preuves, c'est un argument de réassurance et non un ornement.",
+    "nb_logiciels": 9,
+    "cloture_inscriptions": "mardi 18 août 2026",
+    "cloture_iso": "2026-08-18T23:59:59",
+    "obligation": "Disposer d’un ordinateur portable personnel",
+    "environnement": [
+      "Connexion Internet mise à disposition pendant les séances",
+      "Assistance technique tout au long du parcours"
+    ]
+  },
+
+  "formules": [
+    {
+      "cle": "bootcamp",
+      "nom": "BootCamp intensif",
+      "public": "Étudiants et doctorants",
+      "dates": "du jeudi 20 août au samedi 5 septembre 2026",
+      "dates_courtes": "20 août – 5 septembre 2026",
+      "duree_jours": 15,
+      "_note_duree": "15 séances vérifiées par calcul : du 20/08 au 05/09/2026, du lundi au samedi.",
+      "duree_heures": 105,
+      "jours": "du lundi au samedi",
+      "horaires": "09 h 00 – 17 h 00, pause de 13 h 00 à 14 h 00",
+      "heures_par_jour": 7,
+      "modalite": "En ligne (Zoom) et en présentiel",
+      "lieu_presentiel": "Université de Bangui",
+      "prix": "100 000 FCFA",
+      "prix_barre": "250 000 FCFA",
+      "reglement": "Paiement unique au démarrage",
+      "particularite": "Format immersif : la totalité de la chaîne d’enquête condensée en trois semaines, pensée pour un mémoire ou une thèse en cours."
+    },
+    {
+      "cle": "cours_du_soir",
+      "nom": "Cours du soir approfondi",
+      "public": "Professionnels et institutions",
+      "dates": "du jeudi 20 août au mercredi 28 octobre 2026",
+      "dates_courtes": "20 août – 28 octobre 2026",
+      "duree_seances": 60,
+      "_note_duree": "VOLUME ARRÊTÉ À 300 HEURES, dimanches exclus. Séance de 5 h (16 h-21 h) => 60 séances ; départ le 20/08/2026, tous les jours sauf le dimanche => 60ᵉ séance le mercredi 28/10/2026, soit 70 jours calendaires. Ne jamais changer la date de fin sans refaire ce calcul : le volume horaire est la contrainte, la date en découle.",
+      "duree_heures": 300,
+      "jours": "du lundi au samedi, dimanches exclus",
+      "horaires": "16 h 00 – 21 h 00",
+      "heures_par_jour": 5,
+      "modalite": "En ligne (Zoom) et en présentiel",
+      "lieu_presentiel": "Siège du cabinet — Kangala, Avenue B. Boganda, 3ᵉ arrondissement, Bangui",
+      "places": 30,
+      "places_strictes": true,
+      "prix": "200 000 FCFA",
+      "prix_barre": "300 000 FCFA",
+      "reglement": "Paiement unique au démarrage",
+      "particularite": "Contenu orienté compétences métiers, renforcé et prêt à l’opérationnalisation : on sort en capacité de conduire une enquête pour son service dès le lendemain."
+    }
+  ],
+
+  "calendrier": [
+    { "date": "mardi 18 août 2026", "libelle": "Clôture des inscriptions et rencontre avec les personnes intéressées" },
+    { "date": "mercredi 19 août 2026", "libelle": "Rencontre avec les inscrits : débriefing, remise de la documentation et des fichiers de travail, installation des applications" },
+    { "date": "jeudi 20 août 2026", "libelle": "Ouverture des deux formules" },
+    { "date": "samedi 5 septembre 2026", "libelle": "Clôture du BootCamp intensif" },
+    { "date": "mercredi 28 octobre 2026", "libelle": "Clôture du Cours du soir approfondi" }
+  ],
+
+  "intervenants": [
+    {
+      "nom": "DASSE TE NGBOKOTA Josué Honoré",
+      "titre": "Ingénieur statisticien",
+      "qualites": "Spécialiste MEAL, analyste quantitatif, développeur de systèmes d’informations décisionnelles",
+      "initiales": "DN"
+    },
+    {
+      "_source": "CV_ZIA_09_2025.doc — faits repris tels quels, rien d’extrapolé.",
+      "nom": "ZIA KOYANGBO Arsène",
+      "titre": "Ingénieur statisticien économiste · Directeur des statistiques d’entreprise et de la conjoncture économique à l’ICASEES",
+      "qualites": "Méthodologie d’enquête, sondage et traitement des données",
+      "experience_annees": 16,
+      "diplomes": [
+        "Ingénieur statisticien économiste — ISSEA, Yaoundé (2007-2010)",
+        "Ingénieur des travaux statistiques — ENSEA, Abidjan (2002-2004)"
+      ],
+      "faits_marquants": [
+        "Directeur technique de l’Enquête harmonisée sur les conditions de vie des ménages (EHCVM 2021)",
+        "Participant aux travaux techniques d’élaboration du PND-RCA 2024-2028",
+        "Consultant principal de la 2ᵉ enquête Monographie communale (ICASEES, 2018)",
+        "Consultant national pour l’UNFPA, la Banque mondiale et Cordaid",
+        "Contributeur à l’analyse de la situation des statistiques du genre en Centrafrique (2022)"
+      ],
+      "_pourquoi_ce_fait": "L’EHCVM 2021 est la source du chiffre de 68,8 % cité dans la page de vente et la brochure : le formateur a produit la donnée que la campagne invoque. C’est l’argument de crédibilité le plus fort du kit — ne pas le retirer.",
+      "logiciels": "CSPro, Stata, SPSS, EViews, DEMETRA, R, SPAD, TANAGRA, ODK",
+      "initiales": "ZK"
+    },
+    {
+      "nom": "DAVY MAKOSSO",
+      "titre": "Ingénieur statisticien",
+      "qualites": "Spécialiste en traitement et analyse des données",
+      "initiales": "DM"
+    }
+  ]
+}

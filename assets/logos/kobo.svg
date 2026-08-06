@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img">
+<defs><linearGradient id="gk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EC6E5B"/><stop offset="1" stop-color="#C9412F"/></linearGradient>
+<linearGradient id="biseauk" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#ffffff" stop-opacity=".28"/>
+<stop offset=".5" stop-color="#ffffff" stop-opacity="0"/>
+<stop offset="1" stop-color="#000000" stop-opacity=".14"/></linearGradient>
+</defs>
+<rect x="2" y="2" width="92" height="92" rx="22" fill="url(#gk)"/>
+<circle cx="34" cy="32" r="4" fill="#ffffff" opacity="1"/><circle cx="48" cy="32" r="4" fill="#ffffff" opacity="0.45"/><circle cx="62" cy="32" r="4" fill="#ffffff" opacity="1"/><circle cx="34" cy="46" r="4" fill="#ffffff" opacity="0.45"/><circle cx="48" cy="46" r="4" fill="#ffffff" opacity="1"/><circle cx="62" cy="46" r="4" fill="#ffffff" opacity="0.45"/><circle cx="34" cy="60" r="4" fill="#ffffff" opacity="1"/><circle cx="48" cy="60" r="4" fill="#ffffff" opacity="0.45"/><circle cx="62" cy="60" r="4" fill="#ffffff" opacity="1"/><path d="M26 70h44" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+<rect x="2" y="2" width="92" height="92" rx="22" fill="url(#biseauk)"/>
+</svg>

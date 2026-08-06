@@ -1,0 +1,268 @@
+/* ==========================================================================
+   Feuille commune aux trois modèles de lettres administratives.
+
+   STRUCTURE IMPOSÉE PAR L'USAGE ADMINISTRATIF : chaque courrier fait
+   EXACTEMENT DEUX PAGES A4, et pas une de plus.
+
+     page 1 — LA LETTRE. Sobre, une seule page, signable en bas.
+              C'est elle qu'on classe, qu'on vise, qu'on tamponne.
+     page 2 — LA FICHE TECHNIQUE annexée. C'est là, et seulement là, que
+              vit l'infographie : chiffres, tableau comparatif, frise des
+              modules, logiciels, intervenants.
+
+   POURQUOI CE DÉCOUPAGE. Un courrier qui s'ouvre sur des aplats de couleur
+   et des pictogrammes se lit comme un prospectus et finit à la corbeille
+   d'un secrétariat de ministère. Un courrier sobre suivi d'une annexe
+   documentée se lit comme un dossier : le premier feuillet passe le filtre,
+   le second convainc. Ne jamais faire remonter l'infographie en page 1.
+
+   IMPRESSION — contraintes vérifiées :
+     • marges de 20 mm minimum sur les quatre côtés (zone non imprimable des
+       imprimantes de bureau, et place pour la perforation à gauche) ;
+     • aucun aplat sombre en pleine page : une administration imprime en
+       noir et blanc sur papier ordinaire, et un fond marine pleine page
+       vide une cartouche et ressort gris sale ;
+     • tout ce qui est codé par la couleur est AUSSI codé par la forme ou le
+       texte, pour rester lisible en niveaux de gris ;
+     • aucune coupure de page à l'intérieur d'un bloc.
+   ========================================================================== */
+
+/* Marge nulle sur @page : les marges sont gérées par le padding des blocs,
+   ce qui permet aux bandeaux de couleur d'aller à fond perdu tout en
+   gardant le texte à 20 mm du bord. */
+@page { size: A4 portrait; margin: 0; }
+
+body { background: #C9D3DC; margin: 0; }
+
+.feuille {
+  width: 210mm; height: 297mm;
+  margin: 0 auto 6mm;
+  background: var(--blanc);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: var(--ombre-4);
+  /* `break-after` et non `page-break-after` : la propriété de CSS 2.1 est
+     ignorée par Chromium dans un conteneur flex, et les feuillets se
+     chevauchaient dans le PDF. */
+  break-after: page;
+}
+.feuille:last-child { break-after: auto; }
+@media print {
+  .feuille { box-shadow: none; margin: 0; }
+  body { background: var(--blanc); }
+}
+
+/* ==========================================================================
+   PAGE 1 — LA LETTRE
+   ========================================================================== */
+
+/* --- En-tête --------------------------------------------------------------
+   Filet de marque, bloc-marque à gauche, coordonnées à droite. Le tout tient
+   en 34 mm : au-delà, la lettre ne tient plus sur une page. */
+.entete {
+  flex: none;
+  padding: 13mm 20mm 7mm;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10mm;
+}
+.entete img { height: 16mm; }
+.entete__coord {
+  text-align: right; font-size: 2.8mm; line-height: 1.5; color: var(--encre-70);
+  font-family: var(--texte);
+}
+.entete__coord b { color: var(--marine-800); display: block; font-size: 3mm; margin-bottom: .8mm; }
+
+/* Filet de séparation sous l'en-tête : deux traits d'épaisseur inégale,
+   marine puis bleu signal. C'est la seule fioriture de la page 1, et elle
+   reste lisible en noir et blanc (les deux traits diffèrent par l'épaisseur,
+   pas seulement par la couleur). */
+.entete__filet { flex: none; margin: 0 20mm; }
+.entete__filet div:first-child { height: .9mm; background: var(--marine-800); }
+.entete__filet div:last-child { height: .35mm; background: var(--bleu-signal); margin-top: .7mm; }
+
+/* --- Corps ---------------------------------------------------------------- */
+.corps {
+  flex: 1;
+  padding: 8mm 20mm 0;
+  font-family: var(--serif);
+  font-size: 3.75mm;
+  line-height: 1.55;
+  color: var(--encre);
+  display: flex; flex-direction: column;
+}
+.corps p { margin: 0 0 3.6mm; text-align: justify; }
+.corps strong { color: var(--marine-800); }
+
+/* Ligne « référence / lieu et date ». La référence est ce qui permet à un
+   secrétariat de retrouver le courrier : sans elle, une administration ne
+   peut pas y répondre proprement. */
+.reference {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10mm;
+  font-family: var(--texte); font-size: 3.2mm; color: var(--encre-70);
+  margin-bottom: 7mm;
+}
+.reference b { color: var(--marine-800); }
+
+/* Bloc destinataire, aligné à droite comme le veut l'usage. */
+.destinataire {
+  margin: 0 0 8mm auto; width: 86mm;
+  font-family: var(--texte); font-size: 3.4mm; line-height: 1.45;
+}
+.destinataire b { display: block; color: var(--marine-800); margin-bottom: 1mm; }
+
+/* L'objet est le seul élément de la page 1 posé sur un fond : c'est ce que
+   l'agent de courrier lit en premier pour orienter le pli. Fond très clair
+   pour ne pas charger l'encre. */
+.objet {
+  background: var(--bleu-050);
+  padding: 3.5mm 5mm; border-radius: 1.5mm;
+  margin-bottom: 7mm;
+  font-family: var(--texte); font-size: 3.5mm; line-height: 1.45;
+  box-shadow: inset .8mm 0 0 var(--bleu-action);
+}
+.objet b { color: var(--marine-800); }
+
+/* --- Signature -------------------------------------------------------------
+   `margin-top: auto` pousse le bloc en bas de la zone de texte quel que
+   soit le nombre de paragraphes : la signature tombe toujours au même
+   endroit d'une lettre à l'autre, ce qui fait série. */
+.signature { margin-top: auto; padding-top: 6mm; font-family: var(--texte); font-size: 3.4mm; line-height: 1.45; }
+.signature__espace { height: 20mm; }   /* réserve pour le paraphe et le cachet */
+.signature b { display: block; color: var(--marine-800); font-size: 3.7mm; }
+.signature .fonction { color: var(--encre-70); }
+
+.pj {
+  margin-top: 5mm; padding-top: 3mm;
+  box-shadow: inset 0 .3mm 0 rgba(11,37,69,.18);
+  font-family: var(--texte); font-size: 3mm; line-height: 1.45; color: var(--encre-70);
+}
+.pj b { color: var(--marine-800); }
+
+/* --- Pied de page ---------------------------------------------------------- */
+.pied {
+  flex: none;
+  padding: 3mm 20mm 4.5mm;
+  font-family: var(--texte); font-size: 2.6mm; line-height: 1.45;
+  color: var(--encre-40);
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm;
+}
+.pied__page { font-family: var(--titre); color: var(--marine-800); font-size: 3mm; white-space: nowrap; }
+
+/* ==========================================================================
+   PAGE 2 — LA FICHE TECHNIQUE ANNEXÉE
+   ========================================================================== */
+
+.annexe__tete {
+  flex: none;
+  background: var(--marine-800); color: var(--blanc);
+  padding: 6.5mm 20mm 5.5mm;
+  display: flex; align-items: center; justify-content: space-between; gap: 8mm;
+}
+.annexe__tete h1 {
+  font-size: 5.8mm; color: var(--blanc); margin: 0;
+  font-variation-settings: "wght" 700, "wdth" 86;
+}
+.annexe__tete p { margin: 1.5mm 0 0; font-size: 3mm; color: #9FBBD2; font-family: var(--texte); }
+.annexe__tete img { height: 11.5mm; flex: none; }
+
+.annexe { flex: 1; padding: 4.5mm 20mm 0; display: flex; flex-direction: column; gap: 2.9mm; min-height: 0; }
+
+.a-titre {
+  font-family: var(--titre); font-size: 3.7mm; color: var(--marine-800);
+  margin: 0 0 1.8mm; letter-spacing: .06em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 2.5mm;
+}
+.a-titre::before { content: ""; width: 5mm; height: .9mm; background: var(--bleu-signal); flex: none; }
+
+/* --- Bandeau de chiffres clés --------------------------------------------
+   Quatre nombres, séparés par des filets verticaux fins. En noir et blanc,
+   ils restent parfaitement lisibles : c'est la taille qui hiérarchise, pas
+   la couleur. */
+.chiffres { display: grid; grid-template-columns: repeat(4, 1fr); }
+.chiffres div { text-align: center; padding: 2mm 2mm; box-shadow: inset -.3mm 0 0 rgba(11,37,69,.15); }
+.chiffres div:last-child { box-shadow: none; }
+.chiffres b {
+  display: block; font-family: var(--titre); font-size: 7.4mm; line-height: 1;
+  color: var(--bleu-action); font-variation-settings: "wght" 700, "wdth" 84;
+  font-variant-numeric: tabular-nums;
+}
+.chiffres span { font-size: 2.7mm; letter-spacing: .09em; text-transform: uppercase; color: var(--encre-70); }
+
+/* --- Tableau comparatif des deux formules --------------------------------- */
+table.formules { width: 100%; border-collapse: collapse; font-family: var(--texte); font-size: 3mm; }
+table.formules th {
+  background: var(--marine-800); color: var(--blanc); text-align: left;
+  font-family: var(--titre); font-weight: 600; padding: 2mm 3mm; letter-spacing: .04em;
+}
+table.formules th:first-child { background: var(--marine-900); }
+table.formules td { padding: 1.7mm 3mm; vertical-align: top; line-height: 1.3; }
+table.formules tbody tr:nth-child(odd) { background: var(--bleu-050); }
+table.formules td:first-child { color: var(--encre-70); font-weight: 600; width: 28mm; }
+table.formules b { color: var(--marine-800); }
+/* Le prix barré doit rester lisible à l'impression : gris moyen, pas clair. */
+table.formules s { color: #6B7F91; }
+
+/* --- Frise des dix modules -------------------------------------------------
+   Deux colonnes de cinq. Chaque module porte son numéro dans une pastille :
+   le numéro sert de repère en noir et blanc là où la couleur disparaît. */
+.modules { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1mm 6mm; }
+.modules div { display: grid; grid-template-columns: 6mm 1fr; gap: 2.2mm; align-items: baseline; font-size: 3mm; line-height: 1.3; }
+.modules b {
+  font-family: var(--titre); color: var(--blanc); background: var(--bleu-action);
+  border-radius: 50%; width: 5.4mm; height: 5.4mm; display: grid; place-items: center;
+  font-size: 2.7mm; align-self: start;
+}
+.modules div:nth-child(n+9) b { background: var(--or-fonce); }
+
+/* --- Logiciels -------------------------------------------------------------- */
+.logiciels { display: flex; flex-wrap: wrap; gap: 2.4mm; align-items: center; }
+.logiciels img { width: 8mm; height: 8mm; border-radius: 2.2mm; box-shadow: var(--ombre-1); }
+.logiciels span { font-size: 2.7mm; color: var(--encre-70); margin-left: 1mm; flex: 1 1 100%; }
+
+/* --- Intervenants ------------------------------------------------------------ */
+.interv { display: grid; gap: 1.6mm; }
+.interv div { display: grid; grid-template-columns: 7.4mm 1fr; gap: 2.2mm; align-items: start; font-size: 2.85mm; line-height: 1.3; }
+.interv b {
+  font-family: var(--titre); font-size: 2.7mm; color: var(--blanc);
+  background: linear-gradient(150deg, var(--bleu-signal), var(--bleu-action));
+  width: 7.4mm; height: 7.4mm; border-radius: 50%; display: grid; place-items: center;
+}
+.interv u { text-decoration: none; color: var(--marine-800); font-weight: 700; }
+
+/* --- Preuve : la première promotion -------------------------------------------
+   Une photographie dans un courrier administratif se justifie à une seule
+   condition : qu'elle prouve un fait. Celle-ci prouve que la première
+   édition est allée jusqu'à la remise des attestations. */
+.preuve { display: grid; grid-template-columns: 47mm 1fr; gap: 4.5mm; align-items: start; }
+.preuve img { width: 100%; border-radius: 2mm; box-shadow: var(--ombre-2); display: block; }
+.preuve p { margin: 0; font-size: 2.85mm; line-height: 1.38; color: var(--encre-70); font-family: var(--texte); }
+.preuve p b { color: var(--marine-800); }
+.preuve__legende { font-size: 2.4mm; line-height: 1.25; color: var(--encre-40); margin-top: 1.2mm; }
+
+/* --- Encadré d'action ---------------------------------------------------------
+   Fond or : c'est le seul endroit des deux pages où l'on demande quelque
+   chose. En noir et blanc il ressort en gris clair, et le liseré épais à
+   gauche le distingue quand même du reste. */
+.action {
+  background: #FDF3DC; border-radius: 2mm; padding: 2.6mm 4mm; margin-top: 2.5mm;
+  box-shadow: inset 1.2mm 0 0 var(--or-fonce);
+  font-family: var(--texte); font-size: 3.1mm; line-height: 1.45; color: #4A3000;
+}
+.action b { color: #3B2600; }
+/* Garde-fou : si l'annexe venait à déborder malgré tout, mieux vaut la voir
+   se resserrer que voir le pied de page chevaucher le contenu. */
+.annexe > div:last-child { margin-top: auto; }
+
+/* ==========================================================================
+   CHAMPS À COMPLÉTER
+   Surlignés à l'écran pour qu'on ne diffuse jamais un courrier où il reste
+   un crochet. La mise en évidence DISPARAÎT à l'impression : le
+   destinataire ne doit pas voir les repères de rédaction.
+   ========================================================================== */
+.a-completer { background: #DCEEF8; padding: 0 1mm; border-radius: .8mm; color: var(--bleu-action); }
+@media print { .a-completer { background: none; color: inherit; } }
+
+/* Rien ne doit être coupé par un saut de page. */
+@media print {
+  .objet, .destinataire, .signature, .preuve, .action,
+  table.formules, .chiffres, .interv { break-inside: avoid; }
+}
